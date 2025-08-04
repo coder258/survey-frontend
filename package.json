@@ -26,7 +26,8 @@
     "test": "craco test",
     "eject": "craco eject",
     "lint": " eslint \"src/**/*.+(js|ts|jsx|tsx)\" ",
-    "format": " prettier --write \"src/**/*.+(js|ts|jsx|tsx)\" "
+    "format": " prettier --write \"src/**/*.+(js|ts|jsx|tsx)\" ",
+    "prepare": "husky"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +50,7 @@
   "devDependencies": {
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.7",
     "prettier": "^3.3.3"
   }
 }
