@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-05 16:59:48
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-05 17:25:56
+ * @LastEditTime: 2025-08-13 16:23:42
  * @FilePath: \survey-frontend\src\router\index.tsx
  * @Description: 路由配置
  *
@@ -55,3 +55,9 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+
+// 常用的路由常量
+export const LOGIN_PATHNAME = '/login';
+export const HOME_PATHNAME = '/';
+export const REGISTER_PATHNAME = '/register';
+export const MANAGE_INDEX_PATHNAME = '/manage/list';

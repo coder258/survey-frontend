@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-05 16:32:16
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-11 17:08:33
+ * @LastEditTime: 2025-08-12 17:30:35
  * @FilePath: \survey-frontend\src\layouts\MainLayout.tsx
  * @Description: 首页模板
  *
@@ -12,13 +12,22 @@ import React, { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Layout } from 'antd';
 import styles from './MainLayout.module.scss';
+import Logo from '../components/Logo';
+import UserInfo from '../components/UserInfo';
 
 const { Header, Footer, Content } = Layout;
 
 const MainLayout: FC = () => {
   return (
     <Layout className={styles.layout}>
-      <Header className={styles.header}>MainLayout header</Header>
+      <Header className={styles.header}>
+        <div className={styles.left}>
+          <Logo />
+        </div>
+        <div className={styles.right}>
+          <UserInfo />
+        </div>
+      </Header>
       <Content className={styles.content}>
         <Outlet />
       </Content>
