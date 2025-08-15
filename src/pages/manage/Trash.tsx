@@ -3,6 +3,7 @@ import { useTitle } from 'ahooks';
 import styles from './common.module.scss';
 import { Typography, Empty, Table, Tag, Space, Popconfirm, Button } from 'antd';
 import { StarFilled, StarOutlined } from '@ant-design/icons';
+import ListSearch from '../../components/ListSearch';
 
 const { Title } = Typography;
 const questionListData = [
@@ -137,7 +138,9 @@ const Trash: FC = () => {
           <div className={styles.left}>
             <Title level={3}>回收站</Title>
           </div>
-          <div className={styles.right}>（搜索）</div>
+          <div className={styles.right}>
+            <ListSearch />
+          </div>
         </div>
         <div className={styles.content}>
           {questionList.length > 0 ? TableElement : <Empty description="暂无数据" />}

@@ -238,6 +238,10 @@ $flex-align: (
 // 宽度生成器 (百分比)
 @for $i from 0 through 100 {
     .w-#{$i} {
+        width: #{$i}px;
+    }
+
+    .pw-#{$i} {
         width: percentage($i / 100);
     }
 
@@ -249,6 +253,10 @@ $flex-align: (
 // 高度生成器
 @for $i from 0 through 100 {
     .h-#{$i} {
+        height: #{$i}px;
+    }
+
+    .ph-#{$i} {
         height: percentage($i / 100);
     }
 
@@ -395,32 +403,31 @@ $breakpoints: (
 
 // _variables.scss
 $border-radii: (
-  none: 0,
-  sm: 4px,
-  base: 8px,
-  md: 12px,
-  lg: 16px,
-  xl: 24px,
-  full: 9999px,
-  circle: 50%
-) !default;
+    none: 0,
+    sm: 4px,
+    base: 8px,
+    md: 12px,
+    lg: 16px,
+    xl: 24px,
+    full: 9999px,
+    circle: 50%) !default;
 
 // _generators.scss
 @each $name, $value in $border-radii {
-  .rounded-#{$name} {
-    border-radius: $value;
-  }
-  
-  // 可选：生成各方向独立的半径
-  .rounded-t-#{$name} {
-    border-top-left-radius: $value;
-    border-top-right-radius: $value;
-  }
-  
-  .rounded-b-#{$name} {
-    border-bottom-left-radius: $value;
-    border-bottom-right-radius: $value;
-  }
+    .rounded-#{$name} {
+        border-radius: $value;
+    }
+
+    // 可选：生成各方向独立的半径
+    .rounded-t-#{$name} {
+        border-top-left-radius: $value;
+        border-top-right-radius: $value;
+    }
+
+    .rounded-b-#{$name} {
+        border-bottom-left-radius: $value;
+        border-bottom-right-radius: $value;
+    }
 }
 
 // 视觉隐藏但屏幕阅读器可见
@@ -431,7 +438,8 @@ $border-radii: (
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+    clip: rect(0, 0, 0, 0
+    );
+white-space: nowrap;
+border: 0;
 }
