@@ -1,0 +1,28 @@
+.container {
+  padding: 15px;
+  margin: 0 0 20px 0;
+  background: #ffffff;
+  box-shadow: 0 0 5px rgb(219, 219, 219);
+  transition: .7s;
+  @include flex-column-center;
+
+  .top {
+    @include flex-between
+  }
+
+  .bottom {
+    @include flex-between
+  }
+
+  .divider {
+    margin: 20px;
+  }
+
+  .star-red {
+    color: red;
+  }
+}
+
+.container:hover {
+  box-shadow: 5px 5px 10px rgb(220, 220, 220);
+}

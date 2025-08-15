@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-05 16:40:35
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-12 17:15:08
+ * @LastEditTime: 2025-08-14 15:59:20
  * @FilePath: \survey-frontend\src\layouts\ManageLayout.tsx
  * @Description: 管理模板
  *
@@ -15,18 +15,22 @@ import { Button, Space, Divider } from 'antd';
 import type { ButtonType } from 'antd/es/button';
 import { PlusOutlined, BarsOutlined, StarOutlined, DeleteOutlined } from '@ant-design/icons';
 
+type ButtonTypeMapperType = { [key: string]: ButtonType };
+
+const buttonTypeMapperData: ButtonTypeMapperType = {
+  '/manage/list': 'text',
+  '/manage/star': 'default',
+  '/manage/trash': 'default',
+};
+
 const ManageLayout: FC = () => {
   const nav = useNavigate();
-  const [buttonTypeMapper, setButtonTypeMapper] = useState<{ [key: string]: ButtonType }>({
-    '/manage/list': 'default',
-    '/manage/star': 'default',
-    '/manage/trash': 'default',
-  });
+  const [buttonTypeMapper, setButtonTypeMapper] =
+    useState<ButtonTypeMapperType>(buttonTypeMapperData);
   const menuClickHandler = (path: string) => {
     setButtonTypeMapper({
+      ...buttonTypeMapperData,
       '/manage/list': 'default',
-      '/manage/star': 'default',
-      '/manage/trash': 'default',
       [path]: 'text',
     });
     nav(path);
