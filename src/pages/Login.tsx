@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Typography, Space, Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -11,7 +11,7 @@ const Login: FC = () => {
   const [form] = Form.useForm();
 
   // 初始化时检查本地存储
-  React.useEffect(() => {
+  useEffect(() => {
     const savedUser = localStorage.getItem('savedUser');
     if (savedUser) {
       const { username, password, remember } = JSON.parse(savedUser);
