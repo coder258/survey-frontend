@@ -1,43 +1,19 @@
 import React, { FC, useState } from 'react';
 import { useTitle } from 'ahooks';
 import styles from './common.module.scss';
-import { Typography, Empty, Table, Tag, Space, Popconfirm, Button } from 'antd';
+import { Typography, Table, Tag, Space, Popconfirm, Button } from 'antd';
 import { StarFilled, StarOutlined } from '@ant-design/icons';
 import ListSearch from '../../components/ListSearch';
+import useLoadQuestionListData from '../../hooks/useLoadQuestionListData';
+import ListPagination from '../../components/ListPagination';
 
 const { Title } = Typography;
-const questionListData = [
-  {
-    _id: '1',
-    title: '问卷1',
-    isStar: true,
-    isPublished: false,
-    answerCount: 6,
-    createdAt: '1月8日 16:56',
-  },
-  {
-    _id: '2',
-    title: '问卷2',
-    isStar: false,
-    isPublished: false,
-    answerCount: 19,
-    createdAt: '1月9日 16:56',
-  },
-  {
-    _id: '3',
-    title: '问卷3',
-    isStar: false,
-    isPublished: true,
-    answerCount: 100,
-    createdAt: '1月18日 16:56',
-  },
-];
 
 const Trash: FC = () => {
   useTitle('小慕问卷 - 回收站');
 
-  const [questionList, setQuestionList] = useState(questionListData);
-
+  const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true });
+  const { list = [], total = 0 } = data;
   const columns = [
     {
       title: '问卷标题',
@@ -119,10 +95,11 @@ const Trash: FC = () => {
         </Space>
       </div>
       <Table
-        dataSource={questionList}
+        dataSource={list}
         columns={columns}
-        rowKey={question => question._id}
+        rowKey={(question: any) => question._id}
         pagination={false}
+        loading={loading}
         rowSelection={{
           type: 'checkbox',
           onChange: selectedRowKeys => setSelectedIds(selectedRowKeys as string[]),
@@ -142,10 +119,10 @@ const Trash: FC = () => {
             <ListSearch />
           </div>
         </div>
-        <div className={styles.content}>
-          {questionList.length > 0 ? TableElement : <Empty description="暂无数据" />}
+        <div className={styles.content}>{TableElement}</div>
+        <div className={styles.footer}>
+          <ListPagination total={total} />
         </div>
-        <div className={styles.footer}>分页</div>
       </div>
     </>
   );
