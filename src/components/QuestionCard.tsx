@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Button, Space, Divider, Tag, Popconfirm } from 'antd';
+import { Button, Space, Divider, Tag, Popconfirm, message } from 'antd';
 import {
   EditOutlined,
   LineChartOutlined,
@@ -10,6 +10,8 @@ import {
   StarFilled,
 } from '@ant-design/icons';
 import styles from './QuestionCard.module.scss';
+import { updateQuestionApi, duplicateQuestionApi } from '../api/question';
+import { useRequest } from 'ahooks';
 
 interface PropsType {
   _id: string;
@@ -18,16 +20,58 @@ interface PropsType {
   isPublished: boolean;
   answerCount: number;
   createdAt: string;
+  onStarChange?: (id: string, newIsStar: boolean) => void;
 }
 
 const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const nav = useNavigate();
   const { _id, title, isStar, isPublished, answerCount, createdAt } = props;
-  const starClickHandler = (_id: string) => {
-    console.log(_id);
+  const [isStarState, setIsStarState] = useState(isStar);
+  const [open, setOpen] = useState(false);
+  // 标星/取消标星
+  const { run: toggleStar, loading: starLoading } = useRequest(
+    async () => {
+      await updateQuestionApi(_id, { isStar: !isStarState });
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        setIsStarState(!isStarState);
+        message.success(isStarState ? '取消标星' : '已标星');
+        if (props.onStarChange) {
+          props.onStarChange(_id, isStarState);
+        }
+      },
+    }
+  );
+
+  const starClickHandler = () => {
+    toggleStar();
   };
-  const copyClickHandler = (_id: string) => {
-    console.log(_id);
+  // 复制问卷
+  const { run: copyQuestion, loading: copyLoading } = useRequest(
+    async () => {
+      const data = await duplicateQuestionApi(_id);
+      return data;
+    },
+    {
+      manual: true,
+      onSuccess: data => {
+        if (data.id) {
+          message.success('复制成功');
+          nav(`/question/edit/${data._id}`);
+        }
+        setOpen(false);
+      },
+      onError: () => {
+        message.error('复制失败');
+        setOpen(false);
+      },
+    }
+  );
+
+  const copyClickHandler = () => {
+    copyQuestion();
   };
   const deleteClickHandler = (_id: string) => {
     console.log(_id);
@@ -39,7 +83,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
         <div className={styles.left}>
           <Link to={isPublished ? `/question/stat/${_id}` : `/question/edit/${_id}`}>
             <Space>
-              {isStar && <StarOutlined className={styles['star-red']} />}
+              {isStarState && <StarOutlined className={styles['star-red']} />}
               {title}
             </Space>
           </Link>
@@ -78,20 +122,29 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
         <div className={styles.right}>
           <Space>
             <Button
-              icon={isStar ? <StarFilled className={styles['star-fill']} /> : <StarOutlined />}
+              icon={isStarState ? <StarFilled className={styles['star-fill']} /> : <StarOutlined />}
               type="text"
               size="small"
-              onClick={() => starClickHandler(_id)}
+              loading={starLoading}
+              onClick={starClickHandler}
             >
-              {isStar ? '取消标星' : '标星'}
+              {isStarState ? '取消标星' : '标星'}
             </Button>
             <Popconfirm
               title="确定复制此问卷吗？"
               okText="确定"
               cancelText="取消"
-              onConfirm={() => copyClickHandler(_id)}
+              onConfirm={copyClickHandler}
+              onCancel={() => setOpen(false)}
+              open={open}
+              okButtonProps={{ loading: copyLoading }}
             >
-              <Button icon={<CopyOutlined />} type="text" size="small">
+              <Button
+                icon={<CopyOutlined />}
+                type="text"
+                size="small"
+                onClick={() => setOpen(true)}
+              >
                 复制
               </Button>
             </Popconfirm>

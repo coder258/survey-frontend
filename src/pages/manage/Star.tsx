@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-04 16:46:59
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-25 15:52:59
+ * @LastEditTime: 2025-08-26 10:54:34
  * @FilePath: \survey-frontend\src\pages\manage\Star.tsx
  * @Description: 星标问卷页面
  *
@@ -15,6 +15,7 @@ import { Typography, Empty, Spin } from 'antd';
 import QuestionCard from '../../components/QuestionCard';
 import ListSearch from '../../components/ListSearch';
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData';
+import ListPagination from '../../components/ListPagination';
 
 const { Title } = Typography;
 
@@ -42,7 +43,9 @@ const Star: FC = () => {
             )}
           </div>
         </Spin>
-        <div className={styles.footer}>分页</div>
+        <div className={styles.footer}>
+          <ListPagination total={total} />
+        </div>
       </div>
     </>
   );
