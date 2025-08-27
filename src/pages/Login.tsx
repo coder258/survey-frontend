@@ -1,14 +1,17 @@
 import React, { FC, useEffect } from 'react';
-import { Typography, Space, Form, Input, Button, Checkbox } from 'antd';
+import { Typography, Space, Form, Input, Button, Checkbox, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import { REGISTER_PATHNAME } from '../router';
+import { Link, useNavigate } from 'react-router-dom';
+import { REGISTER_PATHNAME, MANAGE_INDEX_PATHNAME } from '../router';
 import styles from './Login.module.scss';
+import { loginApi } from '../api/user';
+import { useRequest } from 'ahooks';
 
 const { Title } = Typography;
 
 const Login: FC = () => {
   const [form] = Form.useForm();
+  const nav = useNavigate();
 
   // 初始化时检查本地存储
   useEffect(() => {
@@ -19,9 +22,24 @@ const Login: FC = () => {
     }
   }, [form]);
 
-  const finishHandler = (values: any) => {
-    console.log('表单数据:', values);
+  const { run: login, loading: loginLoading } = useRequest(
+    (username: string, password: string) => loginApi(username, password),
+    {
+      manual: true,
+      onSuccess: data => {
+        // 存储token等登录信息
+        localStorage.setItem('token', data.token);
+        message.success('登录成功');
+        // 跳转到我的问卷页面
+        nav(MANAGE_INDEX_PATHNAME);
+      },
+      onError: () => {
+        message.error('登录失败');
+      },
+    }
+  );
 
+  const finishHandler = (values: any) => {
     // 处理"记住我"功能
     if (values.remember) {
       localStorage.setItem(
@@ -35,24 +53,9 @@ const Login: FC = () => {
     } else {
       localStorage.removeItem('savedUser');
     }
+    const { username, password } = values;
 
-    // TODO: 待登录API接口提供后实现
-    // 登录API调用示例：
-    /*
-    try {
-      const res = await axios.post('/api/login', values);
-      if (res.data.code === 0) {
-        message.success('登录成功');
-        // 登录成功后跳转到首页
-        nav('/');
-      } else {
-        message.error(res.data.msg || '登录失败');
-      }
-    } catch (e) {
-      message.error('登录请求失败');
-      console.error('登录请求异常:', e);
-    }
-    */
+    login(username, password);
   };
 
   return (
@@ -93,7 +96,7 @@ const Login: FC = () => {
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 6, span: 20 }}>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={loginLoading}>
                 登录
               </Button>
               <Link to={REGISTER_PATHNAME}>没有账号，去注册</Link>

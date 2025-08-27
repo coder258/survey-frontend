@@ -1,9 +1,21 @@
 import { message } from 'antd';
 import axios from 'axios';
+import { getToken } from '../utils/user-token';
 
 const instance = axios.create({
   timeout: 1000 * 10,
 });
+
+instance.interceptors.request.use(
+  config => {
+    config.headers.Authorization = `Bearer ${getToken()}`;
+    return config;
+  },
+  error => {
+    message.error('网络请求失败');
+    return Promise.reject(error);
+  }
+);
 
 instance.interceptors.response.use(
   response => {

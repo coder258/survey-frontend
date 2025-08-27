@@ -2,41 +2,40 @@
  * @Author: 唐宇
  * @Date: 2025-08-04 16:21:18
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-19 16:39:31
+ * @LastEditTime: 2025-08-27 15:37:22
  * @FilePath: \survey-frontend\src\pages\Register.tsx
  * @Description: 注册页
  *
  * Copyright (c) 2025 by 唐宇, All Rights Reserved.
  */
 import React, { FC } from 'react';
-import { Typography, Space, Form, Input, Button } from 'antd';
+import { Typography, Space, Form, Input, Button, message } from 'antd';
+import { useRequest } from 'ahooks';
 import { UserAddOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LOGIN_PATHNAME } from '../router';
 import styles from './Register.module.scss';
+import { registerApi } from '../api/user';
 
 const { Title } = Typography;
 
 const Register: FC = () => {
+  const nav = useNavigate();
+
+  const { run: register, loading: registerLoading } = useRequest(registerApi, {
+    manual: true,
+    onSuccess: () => {
+      message.success('注册成功');
+      nav(LOGIN_PATHNAME);
+    },
+    onError: () => {
+      message.error('注册失败');
+    },
+  });
+
   const finishHandler = (values: any) => {
-    console.log('表单数据:', values);
-    // TODO: 待注册API接口提供后实现
-    // 注册API调用示例：
-    /*
-    try {
-      const res = await axios.post('/api/register', values);
-      if (res.data.code === 0) {
-        message.success('注册成功');
-        // 注册成功后跳转到登录页
-        nav(LOGIN_PATHNAME);
-      } else {
-        message.error(res.data.msg || '注册失败');
-      }
-    } catch (e) {
-      message.error('注册请求失败');
-      console.error('注册请求异常:', e);
-    }
-    */
+    const { username, password, nickname } = values;
+    register(username, password, nickname);
   };
   return (
     <div className={styles.container}>
@@ -99,7 +98,7 @@ const Register: FC = () => {
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 6, span: 20 }}>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={registerLoading}>
                 注册
               </Button>
               <Link to={LOGIN_PATHNAME}>已有账号，去登录</Link>
