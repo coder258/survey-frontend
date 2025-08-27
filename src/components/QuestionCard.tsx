@@ -21,13 +21,15 @@ interface PropsType {
   answerCount: number;
   createdAt: string;
   onStarChange?: (id: string, newIsStar: boolean) => void;
+  onDelete?: (id: string) => void;
 }
 
 const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const nav = useNavigate();
   const { _id, title, isStar, isPublished, answerCount, createdAt } = props;
   const [isStarState, setIsStarState] = useState(isStar);
-  const [open, setOpen] = useState(false);
+  const [openCopyPop, setOpenCopyPop] = useState(false);
+  const [openDeletePop, setOpenDeletePop] = useState(false);
   // 标星/取消标星
   const { run: toggleStar, loading: starLoading } = useRequest(
     async () => {
@@ -61,11 +63,11 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
           message.success('复制成功');
           nav(`/question/edit/${data._id}`);
         }
-        setOpen(false);
+        setOpenCopyPop(false);
       },
       onError: () => {
         message.error('复制失败');
-        setOpen(false);
+        setOpenCopyPop(false);
       },
     }
   );
@@ -73,8 +75,29 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const copyClickHandler = () => {
     copyQuestion();
   };
-  const deleteClickHandler = (_id: string) => {
-    console.log(_id);
+  // 删除问卷
+  const { run: deleteQuestion, loading: deleteLoading } = useRequest(
+    async () => {
+      await updateQuestionApi(_id, { isDeleted: true });
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('删除成功');
+        if (props.onDelete) {
+          props.onDelete(_id);
+        }
+        setOpenDeletePop(false);
+      },
+      onError: () => {
+        message.error('删除失败');
+        setOpenDeletePop(false);
+      },
+    }
+  );
+
+  const deleteClickHandler = () => {
+    deleteQuestion();
   };
 
   return (
@@ -135,15 +158,15 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               okText="确定"
               cancelText="取消"
               onConfirm={copyClickHandler}
-              onCancel={() => setOpen(false)}
-              open={open}
+              onCancel={() => setOpenCopyPop(false)}
+              open={openCopyPop}
               okButtonProps={{ loading: copyLoading }}
             >
               <Button
                 icon={<CopyOutlined />}
                 type="text"
                 size="small"
-                onClick={() => setOpen(true)}
+                onClick={() => setOpenCopyPop(!openCopyPop)}
               >
                 复制
               </Button>
@@ -152,9 +175,17 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               title="确定删除此问卷吗？此操作执行后不可撤销！"
               okText="确定"
               cancelText="取消"
-              onConfirm={() => deleteClickHandler(_id)}
+              onConfirm={deleteClickHandler}
+              onCancel={() => setOpenDeletePop(false)}
+              open={openDeletePop}
+              okButtonProps={{ loading: deleteLoading }}
             >
-              <Button icon={<DeleteOutlined />} type="text" size="small">
+              <Button
+                icon={<DeleteOutlined />}
+                type="text"
+                size="small"
+                onClick={() => setOpenDeletePop(!openDeletePop)}
+              >
                 删除
               </Button>
             </Popconfirm>

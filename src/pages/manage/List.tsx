@@ -113,7 +113,15 @@ const List: FC = () => {
       <Spin spinning={loading && !loadingMore}>
         <div className={styles.content}>
           {list.length > 0 &&
-            list.map((question: any) => <QuestionCard key={question._id} {...question} />)}
+            list.map((question: any) => (
+              <QuestionCard
+                key={question._id}
+                {...question}
+                onDelete={id => {
+                  setList(list.filter(q => q._id !== id));
+                }}
+              />
+            ))}
         </div>
       </Spin>
       <div ref={loadMoreRef} className={styles.footer}>

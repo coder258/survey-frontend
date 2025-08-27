@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-25 10:15:00
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-26 16:37:30
+ * @LastEditTime: 2025-08-27 11:56:40
  * @FilePath: \survey-frontend\src\api\question.ts
  * @Description: 问卷服务相关接口
  *
@@ -83,5 +83,17 @@ export const updateQuestionApi = async (
 export const duplicateQuestionApi = async (id: string): Promise<ResDataType> => {
   const url = `/api/question//duplicate/${id}`;
   const data = (await axios.post(url)) as ResDataType;
+  return data;
+};
+
+/**
+ * 彻底删除指定ID的问卷
+ *
+ * @param ids 要删除的问卷ID数组
+ * @returns 返回删除操作的结果
+ */
+export const deleteQuestionApi = async (ids: string[]): Promise<ResDataType> => {
+  const url = `/api/question`;
+  const data = (await axios.delete(url, { data: { ids } })) as ResDataType;
   return data;
 };
