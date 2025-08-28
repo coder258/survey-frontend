@@ -1,3 +1,11 @@
 .star-fill {
     color: #fbd94a;
 }
+
+.full-screen-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}

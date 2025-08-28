@@ -61,3 +61,11 @@ export const LOGIN_PATHNAME = '/login';
 export const HOME_PATHNAME = '/';
 export const REGISTER_PATHNAME = '/register';
 export const MANAGE_INDEX_PATHNAME = '/manage/list';
+
+export const isLoginOrRegisterPage = (pathname: string) => {
+  return pathname === LOGIN_PATHNAME || pathname === REGISTER_PATHNAME;
+};
+
+export const isNoNeedUserInfo = (pathname: string) => {
+  return pathname === HOME_PATHNAME || isLoginOrRegisterPage(pathname);
+};
