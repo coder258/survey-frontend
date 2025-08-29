@@ -19,6 +19,12 @@
   justify-content: center;
 }
 
+@mixin flex-column-start {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
 // 绝对定位居中
 @mixin absolute-center {
   position: absolute;

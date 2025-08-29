@@ -1,0 +1,45 @@
+.container {
+    @include flex-column-start;
+    height: 100vh;
+    background: #f0f2f5;
+}
+
+.header {
+    background: #fff;
+    height: 50px;
+}
+
+.content-wrapper {
+    flex: auto;
+    padding: 12px 0;
+}
+
+.content {
+    margin: 0 24px;
+    display: flex;
+    height: 100%;
+
+    .left,
+    .right {
+        width: 300px;
+        background: #fff;
+        padding: 0 12px;
+    }
+
+    .main {
+        flex: 1;
+        @include flex-center;
+        overflow: hidden;
+
+        .canvas-wrapper {
+            width: 400px;
+            height: 712px;
+            overflow: auto;
+            box-shadow: 0 2px 7px rgb(159, 159, 159);
+
+            .canvas-content {
+                height: 900px;
+            }
+        }
+    }
+}

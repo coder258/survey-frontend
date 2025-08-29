@@ -1,10 +1,37 @@
+/*
+ * @Author: 唐宇
+ * @Date: 2025-08-04 17:15:41
+ * @LastEditors: 唐宇
+ * @LastEditTime: 2025-08-29 15:37:44
+ * @FilePath: \survey-frontend\src\pages\question\Edit\index.tsx
+ * @Description: 编辑问卷页面
+ *
+ * Copyright (c) 2025 by 唐宇, All Rights Reserved.
+ */
 import React, { FC } from 'react';
 import useLoadQuestionData from '../../../hooks/useLoadQuestionData';
+import styles from './index.module.scss';
+import EditCanvas from './EditCanvas';
 
 const Edit: FC = () => {
-  const { data, loading, error } = useLoadQuestionData();
-  console.log(data, loading, error);
-  return <div>Edit</div>;
+  const { loading, error } = useLoadQuestionData();
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>Header</div>
+      <div className={styles['content-wrapper']}>
+        <div className={styles.content}>
+          <div className={styles.left}>Left</div>
+          <div className={styles.main}>
+            <div className={styles['canvas-wrapper']}>
+              <EditCanvas loading={loading} />
+            </div>
+          </div>
+          <div className={styles.right}>Right</div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Edit;
