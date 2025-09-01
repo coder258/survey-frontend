@@ -41,7 +41,11 @@ const useLoadQuestionData = () => {
       return;
     }
     const { title = '', componentList = [] } = data;
-    dispatch(resetComponents({ componentList }));
+    let selectedId = '';
+    if (componentList.length > 0) {
+      selectedId = componentList[0].fe_id;
+    }
+    dispatch(resetComponents({ componentList, selectedId }));
   }, [data]);
 
   useEffect(() => {

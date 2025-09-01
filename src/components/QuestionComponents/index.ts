@@ -1,4 +1,37 @@
-import { QuestionInputPropsType } from './QuestionInput';
-import { QuestionTitlePropsType } from './QuestionTitle';
+/*
+ * @Author: 唐宇
+ * @Date: 2025-08-29 16:01:25
+ * @LastEditors: 唐宇
+ * @LastEditTime: 2025-09-01 10:35:06
+ * @FilePath: \survey-frontend\src\components\QuestionComponents\index.ts
+ * @Description: 统一管理所有组件的配置信息
+ *
+ * Copyright (c) 2025 by 唐宇, All Rights Reserved.
+ */
+import { FC } from 'react';
+import QuestionInputConf, { QuestionInputPropsType } from './QuestionInput';
+import QuestionTitleConf, { QuestionTitlePropsType } from './QuestionTitle';
 
-export type ComponentPropsType = QuestionInputPropsType | QuestionTitlePropsType;
+// 各个组件统一的 props 类型
+export type ComponentPropsType = QuestionInputPropsType & QuestionTitlePropsType;
+
+// 组件配置信息类型
+export type ComponentConfType = {
+  title: string;
+  type: string;
+  Component: FC<ComponentPropsType>;
+  defaultProps: ComponentPropsType;
+};
+
+// 所有组件的配置列表
+const componentConfList: ComponentConfType[] = [QuestionInputConf, QuestionTitleConf];
+
+/**
+ * 根据组件类型获取组件配置
+ *
+ * @param type 组件类型
+ * @returns 返回对应类型的组件配置对象，若未找到则返回 undefined
+ */
+export const getComponentConfByType = (type: string) => {
+  return componentConfList.find(conf => conf.type === type);
+};
