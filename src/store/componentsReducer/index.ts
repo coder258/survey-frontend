@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 15:54:53
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-01 11:11:41
+ * @LastEditTime: 2025-09-01 16:00:36
  * @FilePath: \survey-frontend\src\store\componentsReducer\index.ts
  * @Description: question components reducer
  *
@@ -43,8 +43,40 @@ export const componentsSlice = createSlice({
     setSelectedId: produce((draft: ComponentsStateType, action: PayloadAction<string>) => {
       draft.selectedId = action.payload;
     }),
+
+    // 添加组件
+    addComponent: produce(
+      (draft: ComponentsStateType, action: PayloadAction<ComponentInfoType>) => {
+        const newComponent = action.payload;
+        const { selectedId, componentList } = draft;
+        const index = componentList.findIndex(c => c.fe_id === selectedId);
+        if (index < 0) {
+          // 未选中任何组件
+          draft.componentList.push(newComponent);
+        } else {
+          draft.componentList.splice(index + 1, 0, newComponent);
+        }
+        draft.selectedId = newComponent.fe_id;
+      }
+    ),
+    changeComponentProps: produce(
+      (
+        draft: ComponentsStateType,
+        action: PayloadAction<{ fe_id: string; newProps: ComponentPropsType }>
+      ) => {
+        const { fe_id, newProps } = action.payload;
+        const currentComponent = draft.componentList.find(c => c.fe_id === fe_id);
+        if (currentComponent) {
+          currentComponent.props = {
+            ...currentComponent.props,
+            ...newProps,
+          };
+        }
+      }
+    ),
   },
 });
 
-export const { resetComponents, setSelectedId } = componentsSlice.actions;
+export const { resetComponents, setSelectedId, addComponent, changeComponentProps } =
+  componentsSlice.actions;
 export default componentsSlice.reducer;

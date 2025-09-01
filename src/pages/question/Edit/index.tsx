@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-04 17:15:41
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-01 11:45:37
+ * @LastEditTime: 2025-09-01 16:38:17
  * @FilePath: \survey-frontend\src\pages\question\Edit\index.tsx
  * @Description: 编辑问卷页面
  *
@@ -14,6 +14,8 @@ import styles from './index.module.scss';
 import EditCanvas from './EditCanvas';
 import { useDispatch } from 'react-redux';
 import { setSelectedId } from '../../../store/componentsReducer';
+import LeftPanel from './LeftPanel';
+import RightPanel from './RightPanel';
 
 const Edit: FC = () => {
   const { loading, error } = useLoadQuestionData();
@@ -27,13 +29,17 @@ const Edit: FC = () => {
       <div className={styles.header}>Header</div>
       <div className={styles['content-wrapper']}>
         <div className={styles.content}>
-          <div className={styles.left}>Left</div>
+          <div className={styles.left}>
+            <LeftPanel />
+          </div>
           <div className={styles.main} onClick={() => mainClickHandler()}>
             <div className={styles['canvas-wrapper']}>
               <EditCanvas loading={loading} />
             </div>
           </div>
-          <div className={styles.right}>Right</div>
+          <div className={styles.right}>
+            <RightPanel />
+          </div>
         </div>
       </div>
     </div>

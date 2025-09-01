@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 16:01:25
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-01 10:35:06
+ * @LastEditTime: 2025-09-01 16:47:41
  * @FilePath: \survey-frontend\src\components\QuestionComponents\index.ts
  * @Description: 统一管理所有组件的配置信息
  *
@@ -20,11 +20,32 @@ export type ComponentConfType = {
   title: string;
   type: string;
   Component: FC<ComponentPropsType>;
+  PropsComponent: FC<ComponentPropsType>;
   defaultProps: ComponentPropsType;
 };
 
 // 所有组件的配置列表
 const componentConfList: ComponentConfType[] = [QuestionInputConf, QuestionTitleConf];
+
+export type ComponentConfGroupType = {
+  groupId: string;
+  groupName: string;
+  components: ComponentConfType[];
+};
+
+// 组件分组
+export const componentConfGroup: ComponentConfGroupType[] = [
+  {
+    groupId: 'textGroup',
+    groupName: '文本显示',
+    components: [QuestionTitleConf],
+  },
+  {
+    groupId: 'inputGroup',
+    groupName: '用户输入',
+    components: [QuestionInputConf],
+  },
+];
 
 /**
  * 根据组件类型获取组件配置
