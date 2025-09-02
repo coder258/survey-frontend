@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 16:38:32
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-02 09:59:11
+ * @LastEditTime: 2025-09-02 16:05:04
  * @FilePath: \survey-frontend\src\pages\question\Edit\ComponentProps.tsx
  * @Description: 组件属性编辑组件
  *
@@ -33,7 +33,7 @@ const ComponentProps: FC = () => {
   if (!selectedComponent) {
     return <NoProps />;
   }
-  const { type, props } = selectedComponent;
+  const { type, props, isLocked, isHidden } = selectedComponent;
   const componentConf = getComponentConfByType(type);
   if (!componentConf) {
     return <NoProps />;
@@ -47,7 +47,13 @@ const ComponentProps: FC = () => {
     const { fe_id } = selectedComponent;
     dispatch(changeComponentProps({ fe_id, newProps }));
   };
-  return <PropsComponent {...props} onChange={propsComponentChangeHandler} />;
+  return (
+    <PropsComponent
+      {...props}
+      onChange={propsComponentChangeHandler}
+      disabled={isLocked || isHidden}
+    />
+  );
 };
 
 export default ComponentProps;

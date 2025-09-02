@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-25 10:23:26
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-25 10:26:58
+ * @LastEditTime: 2025-09-02 16:20:51
  * @FilePath: \survey-frontend\src\hooks\useLoadQuestionData.ts
  * @Description: 加载问卷详情数据钩子函数
  *
@@ -45,7 +45,7 @@ const useLoadQuestionData = () => {
     if (componentList.length > 0) {
       selectedId = componentList[0].fe_id;
     }
-    dispatch(resetComponents({ componentList, selectedId }));
+    dispatch(resetComponents({ componentList, selectedId, copiedComponent: null }));
   }, [data]);
 
   useEffect(() => {
