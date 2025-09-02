@@ -1,11 +1,30 @@
+/*
+ * @Author: 唐宇
+ * @Date: 2025-09-01 16:38:32
+ * @LastEditors: 唐宇
+ * @LastEditTime: 2025-09-02 09:59:11
+ * @FilePath: \survey-frontend\src\pages\question\Edit\ComponentProps.tsx
+ * @Description: 组件属性编辑组件
+ *
+ * Copyright (c) 2025 by 唐宇, All Rights Reserved.
+ */
 import React, { FC } from 'react';
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo';
 import { ComponentPropsType, getComponentConfByType } from '../../../components/QuestionComponents';
 import { useDispatch } from 'react-redux';
 import { changeComponentProps } from '../../../store/componentsReducer';
+import { Empty, Typography } from 'antd';
 
 const NoProps: FC = () => {
-  return <div>未选中组件</div>;
+  return (
+    <div>
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        styles={{ image: { height: 60 } }}
+        description={<Typography.Text>未选中组件</Typography.Text>}
+      />
+    </div>
+  );
 };
 
 const ComponentProps: FC = () => {
