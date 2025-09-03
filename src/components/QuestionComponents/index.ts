@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 16:01:25
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-03 12:18:51
+ * @LastEditTime: 2025-09-03 14:37:20
  * @FilePath: \survey-frontend\src\components\QuestionComponents\index.ts
  * @Description: 统一管理所有组件的配置信息
  *
@@ -13,12 +13,16 @@ import QuestionInputConf, { QuestionInputPropsType } from './QuestionInput';
 import QuestionTitleConf, { QuestionTitlePropsType } from './QuestionTitle';
 import QuestionParagraphConf, { QuestionParagraphPropsType } from './QuestionParagraph';
 import QuestionInfoConf, { QuestionInfoPropsType } from './QuestionInfo';
+import QuestionTextAreaConf, { QuestionTextAreaPropsType } from './QuestionTextArea';
+import QuestionRadioConf, { QuestionRadioPropsType } from './QuestionRadio';
 
 // 各个组件统一的 props 类型
 export type ComponentPropsType = QuestionInputPropsType &
   QuestionTitlePropsType &
   QuestionParagraphPropsType &
-  QuestionInfoPropsType;
+  QuestionInfoPropsType &
+  QuestionTextAreaPropsType &
+  QuestionRadioPropsType;
 
 // 组件配置信息类型
 export type ComponentConfType = {
@@ -35,6 +39,8 @@ const componentConfList: ComponentConfType[] = [
   QuestionTitleConf,
   QuestionParagraphConf,
   QuestionInfoConf,
+  QuestionTextAreaConf,
+  QuestionRadioConf,
 ];
 
 export type ComponentConfGroupType = {
@@ -53,7 +59,12 @@ export const componentConfGroup: ComponentConfGroupType[] = [
   {
     groupId: 'inputGroup',
     groupName: '用户输入',
-    components: [QuestionInputConf],
+    components: [QuestionInputConf, QuestionTextAreaConf],
+  },
+  {
+    groupId: 'chooseGroup',
+    groupName: '用户选中',
+    components: [QuestionRadioConf],
   },
 ];
 

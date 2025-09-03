@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 16:34:27
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-01 16:40:38
+ * @LastEditTime: 2025-09-03 16:50:37
  * @FilePath: \survey-frontend\src\pages\question\Edit\RightPanel.tsx
  * @Description: 右侧面板
  *
@@ -12,6 +12,7 @@ import React, { FC } from 'react';
 import { FileTextOutlined, SettingOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
 import ComponentProps from './ComponentProps';
+import styles from './CommonPanel.module.scss';
 
 const RightPanel: FC = () => {
   const tabsItems = [
@@ -29,7 +30,7 @@ const RightPanel: FC = () => {
     },
   ];
 
-  return <Tabs defaultActiveKey="props" items={tabsItems} />;
+  return <Tabs className={styles['custom-tabs']} defaultActiveKey="props" items={tabsItems} />;
 };
 
 export default RightPanel;

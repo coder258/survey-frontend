@@ -38,7 +38,7 @@ const renderComponent = (c: ComponentConfType) => {
 
 const ComponentLib: FC = () => {
   return (
-    <>
+    <div className={styles.container}>
       {componentConfGroup.map((group, index) => {
         const { groupId, groupName, components } = group;
 
@@ -55,7 +55,7 @@ const ComponentLib: FC = () => {
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 

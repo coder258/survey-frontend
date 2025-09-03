@@ -1,0 +1,7 @@
+.custom-tabs {
+    height: 100%;
+
+    :global(.ant-tabs-content-holder) {
+        overflow: auto;
+    }
+}

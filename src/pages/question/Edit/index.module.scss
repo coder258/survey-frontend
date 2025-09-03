@@ -12,6 +12,7 @@
 .content-wrapper {
     flex: auto;
     padding: 12px 0;
+    overflow: hidden;
 }
 
 .content {
@@ -24,6 +25,7 @@
         width: 300px;
         background: #fff;
         padding: 0 12px;
+        overflow: hidden;
     }
 
     .main {

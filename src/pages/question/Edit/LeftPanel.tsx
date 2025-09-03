@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 14:42:01
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-01 16:30:49
+ * @LastEditTime: 2025-09-03 16:49:48
  * @FilePath: \survey-frontend\src\pages\question\Edit\LeftPanel.tsx
  * @Description: 左侧面板
  *
@@ -12,6 +12,7 @@ import { AppstoreAddOutlined, BarsOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
 import React, { Children, FC } from 'react';
 import ComponentLib from './ComponentLib';
+import styles from './CommonPanel.module.scss';
 
 const LeftPanel: FC = () => {
   const tabsItems = [
@@ -29,7 +30,9 @@ const LeftPanel: FC = () => {
     },
   ];
 
-  return <Tabs defaultActiveKey="componentLib" items={tabsItems} />;
+  return (
+    <Tabs className={styles['custom-tabs']} defaultActiveKey="componentLib" items={tabsItems} />
+  );
 };
 
 export default LeftPanel;
