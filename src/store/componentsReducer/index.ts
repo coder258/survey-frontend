@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 15:54:53
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-02 16:36:15
+ * @LastEditTime: 2025-09-03 10:37:15
  * @FilePath: \survey-frontend\src\store\componentsReducer\index.ts
  * @Description: question components reducer
  *
@@ -57,6 +57,7 @@ export const componentsSlice = createSlice({
         insertNewComponent(draft, newComponent);
       }
     ),
+    // 修改组件属性
     changeComponentProps: produce(
       (
         draft: ComponentsStateType,
@@ -72,6 +73,7 @@ export const componentsSlice = createSlice({
         }
       }
     ),
+    // 删除选中的组件
     removeSelectedComponent: produce((draft: ComponentsStateType) => {
       const { selectedId: removedId, componentList = [] } = draft;
       const newSelectedId = getNextSelectedId(removedId, componentList);
@@ -79,6 +81,7 @@ export const componentsSlice = createSlice({
       const index = componentList.findIndex(c => c.fe_id === removedId);
       componentList.splice(index, 1);
     }),
+    // 修改组件隐藏状态
     changeComponentHiddenState: produce(
       (draft: ComponentsStateType, action: PayloadAction<{ fe_id: string; isHidden: boolean }>) => {
         const { componentList = [] } = draft;
@@ -98,6 +101,7 @@ export const componentsSlice = createSlice({
         }
       }
     ),
+    // 切换组件锁定状态
     toggleComponentLockState: produce(
       (draft: ComponentsStateType, action: PayloadAction<{ fe_id: string }>) => {
         const { componentList = [] } = draft;
@@ -109,6 +113,7 @@ export const componentsSlice = createSlice({
         }
       }
     ),
+    // 复制组件
     copySelectedComponent: produce((draft: ComponentsStateType) => {
       const { selectedId: copiedId, componentList = [] } = draft;
       const currentComponent = componentList.find(c => c.fe_id === copiedId);
@@ -117,6 +122,7 @@ export const componentsSlice = createSlice({
       }
       draft.copiedComponent = deepClone(currentComponent);
     }),
+    // 粘贴复制的组件
     pasteCopiedComponent: produce((draft: ComponentsStateType) => {
       const { copiedComponent } = draft;
       if (!copiedComponent) {
@@ -125,6 +131,32 @@ export const componentsSlice = createSlice({
       // 修改要粘贴的组件的fe_id
       copiedComponent.fe_id = nanoid();
       insertNewComponent(draft, copiedComponent);
+    }),
+    // 选中上一个组件
+    selectPrevComponent: produce((draft: ComponentsStateType) => {
+      const { selectedId, componentList = [] } = draft;
+      const selectedIndex = componentList.findIndex(c => c.fe_id === selectedId);
+      if (selectedIndex === -1) {
+        return;
+      }
+      if (selectedIndex === 0) {
+        return;
+      }
+
+      draft.selectedId = componentList[selectedIndex - 1].fe_id;
+    }),
+    // 选中下一个组件
+    selectNextComponent: produce((draft: ComponentsStateType) => {
+      const { selectedId, componentList = [] } = draft;
+      const selectedIndex = componentList.findIndex(c => c.fe_id === selectedId);
+      if (selectedIndex === -1) {
+        return;
+      }
+      if (selectedIndex === componentList.length - 1) {
+        return;
+      }
+
+      draft.selectedId = componentList[selectedIndex + 1].fe_id;
     }),
   },
 });
@@ -139,6 +171,8 @@ export const {
   toggleComponentLockState,
   copySelectedComponent,
   pasteCopiedComponent,
+  selectPrevComponent,
+  selectNextComponent,
   // ...其他actions
 } = componentsSlice.actions;
 export default componentsSlice.reducer;

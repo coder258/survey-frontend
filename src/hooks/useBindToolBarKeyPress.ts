@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-02 17:01:28
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-02 17:09:37
+ * @LastEditTime: 2025-09-03 10:38:50
  * @FilePath: \survey-frontend\src\hooks\useBindToolBarKeyPress.ts
  * @Description: 工具栏快捷键绑定
  *
@@ -14,11 +14,15 @@ import {
   copySelectedComponent,
   pasteCopiedComponent,
   removeSelectedComponent,
+  selectNextComponent,
+  selectPrevComponent,
 } from '../store/componentsReducer';
 
 const isActiveElemValid = () => {
   const activeElem = document.activeElement;
-  if (activeElem === document.body) return true;
+  if (activeElem === document.body) {
+    return true;
+  }
   return false;
 };
 
@@ -47,6 +51,22 @@ const useBindToolBarKeyPress = () => {
       return;
     }
     dispatch(pasteCopiedComponent());
+  });
+
+  // 选中上一个
+  useKeyPress(['uparrow'], () => {
+    if (!isActiveElemValid()) {
+      return;
+    }
+    dispatch(selectPrevComponent());
+  });
+
+  // 选中下一个
+  useKeyPress(['downarrow'], () => {
+    if (!isActiveElemValid()) {
+      return;
+    }
+    dispatch(selectNextComponent());
   });
 };
 

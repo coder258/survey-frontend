@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 15:56:29
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-01 16:27:01
+ * @LastEditTime: 2025-09-03 11:16:50
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionInput\index.ts
  * @Description: 问卷输入框
  *
@@ -14,6 +14,7 @@ import { QuestionInputDefaultProps } from './interface';
 
 export * from './interface';
 
+// Input 组件配置
 export default {
   title: '输入框',
   type: 'questionInput',

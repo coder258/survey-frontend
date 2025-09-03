@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 16:01:25
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-01 16:47:41
+ * @LastEditTime: 2025-09-03 12:18:51
  * @FilePath: \survey-frontend\src\components\QuestionComponents\index.ts
  * @Description: 统一管理所有组件的配置信息
  *
@@ -11,9 +11,14 @@
 import { FC } from 'react';
 import QuestionInputConf, { QuestionInputPropsType } from './QuestionInput';
 import QuestionTitleConf, { QuestionTitlePropsType } from './QuestionTitle';
+import QuestionParagraphConf, { QuestionParagraphPropsType } from './QuestionParagraph';
+import QuestionInfoConf, { QuestionInfoPropsType } from './QuestionInfo';
 
 // 各个组件统一的 props 类型
-export type ComponentPropsType = QuestionInputPropsType & QuestionTitlePropsType;
+export type ComponentPropsType = QuestionInputPropsType &
+  QuestionTitlePropsType &
+  QuestionParagraphPropsType &
+  QuestionInfoPropsType;
 
 // 组件配置信息类型
 export type ComponentConfType = {
@@ -25,7 +30,12 @@ export type ComponentConfType = {
 };
 
 // 所有组件的配置列表
-const componentConfList: ComponentConfType[] = [QuestionInputConf, QuestionTitleConf];
+const componentConfList: ComponentConfType[] = [
+  QuestionInputConf,
+  QuestionTitleConf,
+  QuestionParagraphConf,
+  QuestionInfoConf,
+];
 
 export type ComponentConfGroupType = {
   groupId: string;
@@ -38,7 +48,7 @@ export const componentConfGroup: ComponentConfGroupType[] = [
   {
     groupId: 'textGroup',
     groupName: '文本显示',
-    components: [QuestionTitleConf],
+    components: [QuestionInfoConf, QuestionTitleConf, QuestionParagraphConf],
   },
   {
     groupId: 'inputGroup',
