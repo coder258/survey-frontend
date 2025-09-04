@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-04 10:41:06
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-04 11:57:50
+ * @LastEditTime: 2025-09-04 17:15:09
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionRate\PropsComponent.tsx
  * @Description: Rate 属性配置组件
  *
@@ -33,14 +33,10 @@ const PropsComponent: FC<QuestionRatePropsType> = (props: QuestionRatePropsType)
   };
 
   const tooltipsValidator = (_: any, value: any) => {
-    if (!value) {
-      return Promise.reject(new Error('请输入选项文字'));
-    }
-
     // 判断当前值是否和tooltips中其他的值重复
     let num = 0;
     for (let i = 0; i < tooltips.length; i++) {
-      if (tooltips[i] === value) {
+      if (tooltips[i] === value && value !== '') {
         num++;
       }
     }

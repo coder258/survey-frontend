@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-25 10:23:26
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-02 16:20:51
+ * @LastEditTime: 2025-09-04 17:28:54
  * @FilePath: \survey-frontend\src\hooks\useLoadQuestionData.ts
  * @Description: 加载问卷详情数据钩子函数
  *
@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getQuestionApi } from '../api/question';
 import { resetComponents } from '../store/componentsReducer';
+import { resetPageInfo } from '../store/pageInfoReducer';
 
 const useLoadQuestionData = () => {
   const { id = '' } = useParams();
@@ -40,12 +41,13 @@ const useLoadQuestionData = () => {
     if (!data) {
       return;
     }
-    const { title = '', componentList = [] } = data;
+    const { title = '', desc = '', js = '', css = '', componentList = [] } = data;
     let selectedId = '';
     if (componentList.length > 0) {
       selectedId = componentList[0].fe_id;
     }
     dispatch(resetComponents({ componentList, selectedId, copiedComponent: null }));
+    dispatch(resetPageInfo({ title, desc, js, css }));
   }, [data]);
 
   useEffect(() => {

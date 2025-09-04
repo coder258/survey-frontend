@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-04 10:23:43
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-04 11:13:13
+ * @LastEditTime: 2025-09-04 14:10:36
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionRate\interface.ts
  * @Description: 评分组件接口定义
  *

@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 14:42:01
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-03 16:49:48
+ * @LastEditTime: 2025-09-04 15:54:51
  * @FilePath: \survey-frontend\src\pages\question\Edit\LeftPanel.tsx
  * @Description: 左侧面板
  *
@@ -13,6 +13,7 @@ import { Tabs } from 'antd';
 import React, { Children, FC } from 'react';
 import ComponentLib from './ComponentLib';
 import styles from './CommonPanel.module.scss';
+import Layers from './Layers';
 
 const LeftPanel: FC = () => {
   const tabsItems = [
@@ -26,7 +27,7 @@ const LeftPanel: FC = () => {
       key: 'layers',
       label: <span>图层</span>,
       icon: <BarsOutlined />,
-      children: <div>图层</div>,
+      children: <Layers />,
     },
   ];
 
