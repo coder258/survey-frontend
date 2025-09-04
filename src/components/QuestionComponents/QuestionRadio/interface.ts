@@ -17,7 +17,7 @@ export type QuestionRadioPropsType = {
   title?: string;
   isVertical?: boolean;
   options?: OptionType[];
-  value?: string;
+  value?: any;
   onChange?: (value: QuestionRadioPropsType) => void;
   disabled?: boolean;
 };

@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 16:01:25
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-03 14:37:20
+ * @LastEditTime: 2025-09-04 11:06:34
  * @FilePath: \survey-frontend\src\components\QuestionComponents\index.ts
  * @Description: 统一管理所有组件的配置信息
  *
@@ -15,6 +15,7 @@ import QuestionParagraphConf, { QuestionParagraphPropsType } from './QuestionPar
 import QuestionInfoConf, { QuestionInfoPropsType } from './QuestionInfo';
 import QuestionTextAreaConf, { QuestionTextAreaPropsType } from './QuestionTextArea';
 import QuestionRadioConf, { QuestionRadioPropsType } from './QuestionRadio';
+import QuestionRateConf, { QuestionRatePropsType } from './QuestionRate';
 
 // 各个组件统一的 props 类型
 export type ComponentPropsType = QuestionInputPropsType &
@@ -22,7 +23,8 @@ export type ComponentPropsType = QuestionInputPropsType &
   QuestionParagraphPropsType &
   QuestionInfoPropsType &
   QuestionTextAreaPropsType &
-  QuestionRadioPropsType;
+  QuestionRadioPropsType &
+  QuestionRatePropsType;
 
 // 组件配置信息类型
 export type ComponentConfType = {
@@ -41,6 +43,7 @@ const componentConfList: ComponentConfType[] = [
   QuestionInfoConf,
   QuestionTextAreaConf,
   QuestionRadioConf,
+  QuestionRateConf,
 ];
 
 export type ComponentConfGroupType = {
@@ -63,8 +66,8 @@ export const componentConfGroup: ComponentConfGroupType[] = [
   },
   {
     groupId: 'chooseGroup',
-    groupName: '用户选中',
-    components: [QuestionRadioConf],
+    groupName: '用户选择',
+    components: [QuestionRadioConf, QuestionRateConf],
   },
 ];
 
