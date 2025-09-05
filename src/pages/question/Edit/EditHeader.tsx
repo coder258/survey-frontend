@@ -2,14 +2,14 @@
  * @Author: 唐宇
  * @Date: 2025-09-02 10:50:48
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-05 12:23:43
+ * @LastEditTime: 2025-09-05 17:25:45
  * @FilePath: \survey-frontend\src\pages\question\Edit\EditHeader.tsx
  * @Description: 编辑问卷头部组件
  *
  * Copyright (c) 2025 by 唐宇, All Rights Reserved.
  */
 import React, { ChangeEvent, FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './EditHeader.module.scss';
 import { Button, Input, message, Space, Typography } from 'antd';
 import { EditOutlined, LeftOutlined } from '@ant-design/icons';
@@ -17,9 +17,13 @@ import EditToolbar from './EditToolbar';
 import useGetPageInfo from '../../../hooks/useGetPageInfo';
 import { useDispatch } from 'react-redux';
 import { setPageTitle } from '../../../store/pageInfoReducer';
+import useGetComponentInfo from '../../../hooks/useGetComponentInfo';
+import { useDebounceEffect, useKeyPress, useRequest } from 'ahooks';
+import { updateQuestionApi } from '../../../api/question';
 
 const { Title } = Typography;
 
+// 问卷标题与修改按钮
 const TitleElem: FC = () => {
   const { title } = useGetPageInfo();
   const dispatch = useDispatch();
@@ -55,6 +59,100 @@ const TitleElem: FC = () => {
   );
 };
 
+// 保存按钮
+const SaveButton: FC = () => {
+  const { id } = useParams();
+  const { componentList } = useGetComponentInfo();
+  const pageInfo = useGetPageInfo();
+  const {
+    loading,
+    error,
+    run: save,
+  } = useRequest(
+    async () => {
+      if (!id) {
+        return;
+      }
+      await updateQuestionApi(id, { ...pageInfo, componentList });
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('问卷保存成功');
+      },
+      onError: error => {
+        console.log(error);
+        message.error('问卷保存失败');
+      },
+    }
+  );
+
+  useKeyPress(['ctrl.s', 'meta.s'], (event: KeyboardEvent) => {
+    event.preventDefault();
+    if (!loading) {
+      save();
+    }
+  });
+
+  // 自动保存
+  useDebounceEffect(
+    () => {
+      const { isAutoSave = true } = pageInfo;
+      if (!isAutoSave) {
+        return;
+      }
+      if (!loading) {
+        save();
+      }
+    },
+    [componentList, pageInfo],
+    { wait: 1000 }
+  );
+
+  return (
+    <Button onClick={save} loading={loading}>
+      保存
+    </Button>
+  );
+};
+
+// 发布按钮
+const PublishButton: FC = () => {
+  const nav = useNavigate();
+  const { id } = useParams();
+  const { componentList } = useGetComponentInfo();
+  const pageInfo = useGetPageInfo();
+  const {
+    loading,
+    error,
+    run: publish,
+  } = useRequest(
+    async () => {
+      if (!id) {
+        return;
+      }
+      await updateQuestionApi(id, { ...pageInfo, componentList, isPublished: true });
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('问卷发布成功');
+        nav(`/question/stat/${id}`);
+      },
+      onError: error => {
+        console.log(error);
+        message.error('问卷发布失败');
+      },
+    }
+  );
+
+  return (
+    <Button type="primary" onClick={publish} loading={loading}>
+      发布
+    </Button>
+  );
+};
+
 const EditHeader: FC = () => {
   const nav = useNavigate();
 
@@ -74,8 +172,8 @@ const EditHeader: FC = () => {
         </div>
         <div className={`${styles.right} ${styles['text-right']}`}>
           <Space>
-            <Button>保存</Button>
-            <Button type="primary">发布</Button>
+            <SaveButton />
+            <PublishButton />
           </Space>
         </div>
       </div>

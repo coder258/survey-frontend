@@ -2,12 +2,13 @@
  * @Author: 唐宇
  * @Date: 2025-09-04 17:21:25
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-05 12:09:08
+ * @LastEditTime: 2025-09-05 17:17:06
  * @FilePath: \survey-frontend\src\store\pageInfoReducer.ts
  * @Description: PageInfoReducer.ts
  *
  * Copyright (c) 2025 by 唐宇, All Rights Reserved.
  */
+import { TruckFilled } from '@ant-design/icons';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { produce } from 'immer';
 
@@ -16,6 +17,7 @@ export type PageInfoType = {
   desc?: string;
   js?: string;
   css?: string;
+  isAutoSave?: boolean;
 };
 
 const INIT_STATE: PageInfoType = {
@@ -23,6 +25,7 @@ const INIT_STATE: PageInfoType = {
   desc: '',
   js: '',
   css: '',
+  isAutoSave: true,
 };
 
 const pageInfoSlice = createSlice({

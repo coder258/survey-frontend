@@ -2,13 +2,13 @@
  * @Author: 唐宇
  * @Date: 2025-09-04 16:58:05
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-05 11:10:44
+ * @LastEditTime: 2025-09-05 17:22:04
  * @FilePath: \survey-frontend\src\pages\question\Edit\PageSetting.tsx
  * @Description: 右侧面板-页面设置
  *
  * Copyright (c) 2025 by 唐宇, All Rights Reserved.
  */
-import { Form, Input } from 'antd';
+import { Checkbox, Form, Input } from 'antd';
 import React, { FC, useEffect } from 'react';
 import useGetPageInfo from '../../../hooks/useGetPageInfo';
 import { useDispatch } from 'react-redux';
@@ -52,6 +52,9 @@ const PageSetting: FC = () => {
         </Form.Item>
         <Form.Item label="脚本代码" name="js">
           <TextArea placeholder="请输入 js 脚本代码" allowClear />
+        </Form.Item>
+        <Form.Item name="isAutoSave" valuePropName="checked">
+          <Checkbox>是否自动保存</Checkbox>
         </Form.Item>
       </Form>
     </>

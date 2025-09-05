@@ -2,12 +2,13 @@
  * @Author: 唐宇
  * @Date: 2025-08-25 10:15:00
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-27 11:56:40
+ * @LastEditTime: 2025-09-05 17:14:23
  * @FilePath: \survey-frontend\src\api\question.ts
  * @Description: 问卷服务相关接口
  *
  * Copyright (c) 2025 by 唐宇, All Rights Reserved.
  */
+import { ComponentInfoType } from '../store/componentsReducer';
 import axios, { ResDataType } from './axios';
 
 type SearchOption = {
@@ -20,7 +21,13 @@ type SearchOption = {
 
 type UpdateOption = {
   isStar: boolean;
+  isPublished: boolean;
   isDeleted: boolean;
+  title: string;
+  desc: string;
+  css: string;
+  js: string;
+  componentList: ComponentInfoType[];
 };
 
 /**
