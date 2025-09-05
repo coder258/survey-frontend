@@ -20,7 +20,7 @@ const QuestionInput: FC<QuestionInputPropsType> = (props: QuestionInputPropsType
     <div>
       <Paragraph strong>{title}</Paragraph>
       <div>
-        <Input placeholder={placeholder}></Input>
+        <Input allowClear placeholder={placeholder}></Input>
       </div>
     </div>
   );

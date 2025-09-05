@@ -58,7 +58,7 @@ const Register: FC = () => {
               { max: 20, message: '用户名最多20个字符' },
             ]}
           >
-            <Input placeholder="4-20个字符"></Input>
+            <Input allowClear placeholder="4-20个字符"></Input>
           </Form.Item>
           <Form.Item
             label="密码"
@@ -69,7 +69,7 @@ const Register: FC = () => {
               { pattern: /^(?=.*[A-Za-z])(?=.*\d).+$/, message: '密码需包含字母和数字' },
             ]}
           >
-            <Input.Password placeholder="至少6位，包含字母和数字"></Input.Password>
+            <Input.Password allowClear placeholder="至少6位，包含字母和数字"></Input.Password>
           </Form.Item>
           <Form.Item
             label="确认密码"
@@ -87,14 +87,14 @@ const Register: FC = () => {
               }),
             ]}
           >
-            <Input.Password placeholder="再次输入密码"></Input.Password>
+            <Input.Password allowClear placeholder="再次输入密码"></Input.Password>
           </Form.Item>
           <Form.Item
             label="昵称"
             name="nickname"
             rules={[{ max: 20, message: '昵称最多20个字符' }]}
           >
-            <Input placeholder="可选"></Input>
+            <Input allowClear placeholder="可选"></Input>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 6, span: 20 }}>
             <Space>

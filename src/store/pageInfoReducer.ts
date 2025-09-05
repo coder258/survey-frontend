@@ -2,13 +2,14 @@
  * @Author: 唐宇
  * @Date: 2025-09-04 17:21:25
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-04 17:24:58
+ * @LastEditTime: 2025-09-05 12:09:08
  * @FilePath: \survey-frontend\src\store\pageInfoReducer.ts
  * @Description: PageInfoReducer.ts
  *
  * Copyright (c) 2025 by 唐宇, All Rights Reserved.
  */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { produce } from 'immer';
 
 export type PageInfoType = {
   title: string;
@@ -31,8 +32,11 @@ const pageInfoSlice = createSlice({
     resetPageInfo(state: PageInfoType, action: PayloadAction<PageInfoType>) {
       return action.payload;
     },
+    setPageTitle: produce((draft: PageInfoType, action: PayloadAction<string>) => {
+      draft.title = action.payload;
+    }),
   },
 });
 
-export const { resetPageInfo } = pageInfoSlice.actions;
+export const { resetPageInfo, setPageTitle } = pageInfoSlice.actions;
 export default pageInfoSlice.reducer;

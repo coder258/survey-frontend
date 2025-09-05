@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-04 15:36:04
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-04 16:49:28
+ * @LastEditTime: 2025-09-05 12:25:59
  * @FilePath: \survey-frontend\src\pages\question\Edit\Layers.tsx
  * @Description: 左侧面板-图层
  *
@@ -44,6 +44,7 @@ const Layers: FC = () => {
   const titleChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const newTitle = event.target.value.trim();
     if (!newTitle) {
+      message.warning('图层标题不能为空');
       return;
     }
     if (!selectedId) {
@@ -73,6 +74,7 @@ const Layers: FC = () => {
             >
               {fe_id === changingTitleId && (
                 <Input
+                  allowClear
                   value={title}
                   onChange={event => titleChangeHandler(event)}
                   onPressEnter={() => setChangingTitleId('')}

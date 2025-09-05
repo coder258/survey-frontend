@@ -43,7 +43,7 @@ const PropsComponent: FC<QuestionTitlePropsType> = (props: QuestionTitlePropsTyp
         name="text"
         rules={[{ required: true, message: '请输入标题内容' }]}
       >
-        <Input />
+        <Input allowClear />
       </Form.Item>
       <Form.Item label="层级" name="level">
         <Select

@@ -21,7 +21,7 @@ const QuestionTextArea: FC<QuestionTextAreaPropsType> = (props: QuestionTextArea
     <div>
       <Paragraph strong>{title}</Paragraph>
       <div>
-        <TextArea placeholder={placeholder}></TextArea>
+        <TextArea allowClear placeholder={placeholder}></TextArea>
       </div>
     </div>
   );

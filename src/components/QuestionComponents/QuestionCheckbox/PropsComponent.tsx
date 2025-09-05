@@ -56,7 +56,7 @@ const PropsComponent: FC<QuestionCheckboxPropsType> = (props: QuestionCheckboxPr
       onValuesChange={formChangeHandler}
     >
       <Form.Item label="标题" name="title" rules={[{ required: true, message: '请输入标题' }]}>
-        <Input />
+        <Input allowClear />
       </Form.Item>
       <Form.Item label="选项">
         <Form.List name="options">
@@ -72,7 +72,7 @@ const PropsComponent: FC<QuestionCheckboxPropsType> = (props: QuestionCheckboxPr
                       name={[name, 'label']}
                       rules={[{ validator: (_, value) => optionsValidator(_, value) }]}
                     >
-                      <Input placeholder="请输入选项文字..." />
+                      <Input allowClear placeholder="请输入选项文字..." />
                     </Form.Item>
                     {index > 0 && <MinusCircleOutlined onClick={() => remove(name)} />}
                   </Space>

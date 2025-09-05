@@ -40,10 +40,10 @@ const PropsComponent: FC<QuestionInfoPropsType> = (props: QuestionInfoPropsType)
       onValuesChange={formChangeHandler}
     >
       <Form.Item label="标题" name="title" rules={[{ required: true, message: '请输入问卷标题' }]}>
-        <Input />
+        <Input allowClear />
       </Form.Item>
       <Form.Item label="描述" name="desc">
-        <TextArea />
+        <TextArea allowClear />
       </Form.Item>
     </Form>
   );

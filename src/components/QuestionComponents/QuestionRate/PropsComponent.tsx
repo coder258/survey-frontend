@@ -73,7 +73,7 @@ const PropsComponent: FC<QuestionRatePropsType> = (props: QuestionRatePropsType)
       onValuesChange={formChangeHandler}
     >
       <Form.Item label="标题" name="title" rules={[{ required: true, message: '请输入标题' }]}>
-        <Input />
+        <Input allowClear />
       </Form.Item>
       <Form.Item label="默认评分" name="value">
         <Rate allowHalf={allowHalf} value={value} />
@@ -90,6 +90,7 @@ const PropsComponent: FC<QuestionRatePropsType> = (props: QuestionRatePropsType)
                       rules={[{ validator: (_, value) => tooltipsValidator(_, value) }]}
                     >
                       <Input
+                        allowClear
                         placeholder="请输入评分文案..."
                         prefix={
                           <Tooltip title={renderPrefixTooltipsTitle(index)}>

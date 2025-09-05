@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 16:01:25
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-04 14:55:58
+ * @LastEditTime: 2025-09-05 10:41:53
  * @FilePath: \survey-frontend\src\components\QuestionComponents\index.ts
  * @Description: 统一管理所有组件的配置信息
  *
@@ -19,15 +19,14 @@ import QuestionRateConf, { QuestionRatePropsType } from './QuestionRate';
 import QuestionCheckboxConf, { QuestionCheckboxPropsType } from './QuestionCheckbox';
 
 // 各个组件统一的 props 类型
-export type ComponentPropsType =
-  | QuestionInputPropsType
-  | QuestionTitlePropsType
-  | QuestionParagraphPropsType
-  | QuestionInfoPropsType
-  | QuestionTextAreaPropsType
-  | QuestionRadioPropsType
-  | QuestionRatePropsType
-  | QuestionCheckboxPropsType;
+export type ComponentPropsType = QuestionInputPropsType &
+  QuestionTitlePropsType &
+  QuestionParagraphPropsType &
+  QuestionInfoPropsType &
+  QuestionTextAreaPropsType &
+  QuestionRadioPropsType &
+  QuestionRatePropsType &
+  QuestionCheckboxPropsType;
 
 // 组件配置信息类型
 export type ComponentConfType = {

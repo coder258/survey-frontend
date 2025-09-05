@@ -44,7 +44,7 @@ const PropsComponent: FC<QuestionParagraphPropsType> = (props: QuestionParagraph
         name="text"
         rules={[{ required: true, message: '请输入段落内容' }]}
       >
-        <TextArea />
+        <TextArea allowClear />
       </Form.Item>
       <Form.Item name="isCenter" valuePropName="checked">
         <Checkbox>居中显示</Checkbox>

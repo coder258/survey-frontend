@@ -79,7 +79,7 @@ const Login: FC = () => {
               { max: 20, message: '用户名最多20个字符' },
             ]}
           >
-            <Input placeholder="请输入用户名"></Input>
+            <Input allowClear placeholder="请输入用户名"></Input>
           </Form.Item>
           <Form.Item
             label="密码"
@@ -89,7 +89,7 @@ const Login: FC = () => {
               { min: 6, message: '密码至少6位' },
             ]}
           >
-            <Input.Password placeholder="请输入密码"></Input.Password>
+            <Input.Password allowClear placeholder="请输入密码"></Input.Password>
           </Form.Item>
           <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 6, span: 20 }}>
             <Checkbox>记住我</Checkbox>
