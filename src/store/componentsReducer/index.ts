@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 15:54:53
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-03 10:37:15
+ * @LastEditTime: 2025-09-07 19:31:17
  * @FilePath: \survey-frontend\src\store\componentsReducer\index.ts
  * @Description: question components reducer
  *
@@ -13,6 +13,7 @@ import { ComponentPropsType } from '../../components/QuestionComponents';
 import { produce } from 'immer';
 import { getNextSelectedId, insertNewComponent } from './utils';
 import { deepClone } from '../../utils/lodash';
+import { arrayMove } from '@dnd-kit/sortable';
 
 export type ComponentInfoType = {
   fe_id: string;
@@ -170,6 +171,17 @@ export const componentsSlice = createSlice({
         }
       }
     ),
+    moveComponent: produce(
+      (
+        draft: ComponentsStateType,
+        action: PayloadAction<{ oldIndex: number; newIndex: number }>
+      ) => {
+        const { componentList: currentComponentList } = draft;
+        const { oldIndex, newIndex } = action.payload;
+
+        draft.componentList = arrayMove(currentComponentList, oldIndex, newIndex);
+      }
+    ),
   },
 });
 
@@ -186,6 +198,7 @@ export const {
   selectPrevComponent,
   selectNextComponent,
   changeComponentTitle,
+  moveComponent,
   // ...其他actions
 } = componentsSlice.actions;
 export default componentsSlice.reducer;

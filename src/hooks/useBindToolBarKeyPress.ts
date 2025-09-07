@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-02 17:01:28
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-03 10:38:50
+ * @LastEditTime: 2025-09-07 20:30:54
  * @FilePath: \survey-frontend\src\hooks\useBindToolBarKeyPress.ts
  * @Description: 工具栏快捷键绑定
  *
@@ -21,6 +21,10 @@ import {
 const isActiveElemValid = () => {
   const activeElem = document.activeElement;
   if (activeElem === document.body) {
+    return true;
+  }
+  // 适配dnd-kit拖拽排序
+  if (activeElem?.matches('div[role="button"]')) {
     return true;
   }
   return false;

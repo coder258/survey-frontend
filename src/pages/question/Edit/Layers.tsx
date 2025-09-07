@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-04 15:36:04
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-05 12:25:59
+ * @LastEditTime: 2025-09-07 19:27:49
  * @FilePath: \survey-frontend\src\pages\question\Edit\Layers.tsx
  * @Description: 左侧面板-图层
  *
@@ -15,11 +15,14 @@ import { Button, Input, message, Space } from 'antd';
 import {
   changeComponentHiddenState,
   changeComponentTitle,
+  moveComponent,
   setSelectedId,
   toggleComponentLockState,
 } from '../../../store/componentsReducer';
 import styles from './Layers.module.scss';
 import { EyeInvisibleOutlined, EyeOutlined, LockOutlined } from '@ant-design/icons';
+import SortableContainer from '../../../components/DragSortable/SortableContainer';
+import SortableItem from '../../../components/DragSortable/SortableItem';
 
 const Layers: FC = () => {
   const { componentList, selectedId } = useGetComponentInfo();
@@ -61,53 +64,64 @@ const Layers: FC = () => {
     dispatch(toggleComponentLockState({ fe_id }));
   };
 
+  const componentListWithId = componentList.map(c => ({
+    ...c,
+    id: c.fe_id,
+  }));
+
+  const dragEndHandler = (oldIndex: number, newIndex: number) => {
+    dispatch(moveComponent({ oldIndex, newIndex }));
+  };
+
   return (
-    <>
+    <SortableContainer items={componentListWithId} onDragEnd={dragEndHandler}>
       {componentList.map(component => {
         const { fe_id, isHidden, title, isLocked } = component;
 
         return (
-          <div key={fe_id} className={`${styles.wrapper} ${styles['py-6']}`}>
-            <div
-              className={`${styles.title} ${fe_id === selectedId ? styles.selected : ''}`}
-              onClick={() => titleClickHandler(fe_id)}
-            >
-              {fe_id === changingTitleId && (
-                <Input
-                  allowClear
-                  value={title}
-                  onChange={event => titleChangeHandler(event)}
-                  onPressEnter={() => setChangingTitleId('')}
-                  onBlur={() => setChangingTitleId('')}
-                  autoFocus
-                />
-              )}
-              {fe_id !== changingTitleId && <span>{title}</span>}
+          <SortableItem key={fe_id} id={fe_id}>
+            <div className={`${styles.wrapper} ${styles['py-6']}`}>
+              <div
+                className={`${styles.title} ${fe_id === selectedId ? styles.selected : ''}`}
+                onClick={() => titleClickHandler(fe_id)}
+              >
+                {fe_id === changingTitleId && (
+                  <Input
+                    allowClear
+                    value={title}
+                    onChange={event => titleChangeHandler(event)}
+                    onPressEnter={() => setChangingTitleId('')}
+                    onBlur={() => setChangingTitleId('')}
+                    autoFocus
+                  />
+                )}
+                {fe_id !== changingTitleId && <span>{title}</span>}
+              </div>
+              <div className={`${styles.btn} ${styles['text-right']}`}>
+                <Space>
+                  <Button
+                    className={!isHidden ? styles['btn-opacity'] : ''}
+                    icon={isHidden ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+                    type="text"
+                    size="small"
+                    shape="circle"
+                    onClick={() => hiddenChangeClickHandler(fe_id, !isHidden)}
+                  ></Button>
+                  <Button
+                    className={!isLocked ? styles['btn-opacity'] : ''}
+                    icon={<LockOutlined />}
+                    type={isLocked ? 'primary' : 'text'}
+                    size="small"
+                    shape="circle"
+                    onClick={() => lockChangeClickHandler(fe_id)}
+                  ></Button>
+                </Space>
+              </div>
             </div>
-            <div className={`${styles.btn} ${styles['text-right']}`}>
-              <Space>
-                <Button
-                  className={!isHidden ? styles['btn-opacity'] : ''}
-                  icon={isHidden ? <EyeInvisibleOutlined /> : <EyeOutlined />}
-                  type="text"
-                  size="small"
-                  shape="circle"
-                  onClick={() => hiddenChangeClickHandler(fe_id, !isHidden)}
-                ></Button>
-                <Button
-                  className={!isLocked ? styles['btn-opacity'] : ''}
-                  icon={<LockOutlined />}
-                  type={isLocked ? 'primary' : 'text'}
-                  size="small"
-                  shape="circle"
-                  onClick={() => lockChangeClickHandler(fe_id)}
-                ></Button>
-              </Space>
-            </div>
-          </div>
+          </SortableItem>
         );
       })}
-    </>
+    </SortableContainer>
   );
 };
 

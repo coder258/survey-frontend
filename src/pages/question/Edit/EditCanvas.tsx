@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 15:28:44
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-02 17:10:00
+ * @LastEditTime: 2025-09-07 19:34:48
  * @FilePath: \survey-frontend\src\pages\question\Edit\EditCanvas.tsx
  * @Description: 显示编辑画布的组件
  *
@@ -12,10 +12,12 @@ import React, { FC, MouseEvent } from 'react';
 import styles from './EditCanvas.module.scss';
 import { Spin } from 'antd';
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo';
-import { ComponentInfoType, setSelectedId } from '../../../store/componentsReducer';
+import { ComponentInfoType, moveComponent, setSelectedId } from '../../../store/componentsReducer';
 import { getComponentConfByType } from '../../../components/QuestionComponents';
 import { useDispatch } from 'react-redux';
 import useBindToolBarKeyPress from '../../../hooks/useBindToolBarKeyPress';
+import SortableContainer from '../../../components/DragSortable/SortableContainer';
+import SortableItem from '../../../components/DragSortable/SortableItem';
 
 type PropsType = {
   loading: boolean;
@@ -47,26 +49,39 @@ const EditCanvas: FC<PropsType> = (props: PropsType) => {
       </div>
     );
   }
-  return (
-    <div className={styles.canvas}>
-      {componentList
-        .filter(c => !c.isHidden)
-        .map(c => {
-          const { fe_id, isLocked } = c;
 
-          return (
-            <div
-              key={fe_id}
-              className={`${styles['component-wrapper']} ${fe_id === selectedId ? styles['selected'] : ''} ${isLocked ? styles['locked'] : ''}`}
-              onClick={event => {
-                componentClickHandler(event, fe_id);
-              }}
-            >
-              <div className={styles.component}>{renderComponent(c)}</div>
-            </div>
-          );
-        })}
-    </div>
+  const componentListWithId = componentList.map(c => ({
+    ...c,
+    id: c.fe_id,
+  }));
+
+  const dragEndHandler = (oldIndex: number, newIndex: number) => {
+    dispatch(moveComponent({ oldIndex, newIndex }));
+  };
+
+  return (
+    <SortableContainer items={componentListWithId} onDragEnd={dragEndHandler}>
+      <div className={styles.canvas}>
+        {componentList
+          .filter(c => !c.isHidden)
+          .map(c => {
+            const { fe_id, isLocked } = c;
+
+            return (
+              <SortableItem key={fe_id} id={fe_id}>
+                <div
+                  className={`${styles['component-wrapper']} ${fe_id === selectedId ? styles['selected'] : ''} ${isLocked ? styles['locked'] : ''}`}
+                  onClick={event => {
+                    componentClickHandler(event, fe_id);
+                  }}
+                >
+                  <div className={styles.component}>{renderComponent(c)}</div>
+                </div>
+              </SortableItem>
+            );
+          })}
+      </div>
+    </SortableContainer>
   );
 };
 
