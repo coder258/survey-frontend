@@ -8,7 +8,9 @@ import { ComponentsStateType } from '../store/componentsReducer';
  * @returns 包含组件信息的对象
  */
 const useGetComponentInfo = () => {
-  const components = useSelector<StateType>(state => state.components) as ComponentsStateType;
+  const components = useSelector<StateType>(
+    state => state.components.present
+  ) as ComponentsStateType;
   const { componentList = [], selectedId = '', copiedComponent } = components;
   const selectedComponent = componentList.find(component => component.fe_id === selectedId);
 

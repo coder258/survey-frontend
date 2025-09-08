@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-02 14:56:53
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-07 20:43:57
+ * @LastEditTime: 2025-09-08 16:32:49
  * @FilePath: \survey-frontend\src\pages\question\Edit\EditToolbar.tsx
  * @Description: header工具栏
  *
@@ -16,6 +16,8 @@ import {
   DownOutlined,
   EyeInvisibleOutlined,
   LockOutlined,
+  RedoOutlined,
+  UndoOutlined,
   UpOutlined,
 } from '@ant-design/icons';
 import { Button, Space, Tooltip } from 'antd';
@@ -29,6 +31,7 @@ import {
   toggleComponentLockState,
 } from '../../../store/componentsReducer';
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo';
+import { undo, redo } from '../../../store/utils/undoActions';
 
 const EditToolbar: FC = () => {
   const { selectedId, selectedComponent, copiedComponent, componentList } = useGetComponentInfo();
@@ -105,6 +108,12 @@ const EditToolbar: FC = () => {
             onClick={moveDownClickHandler}
             disabled={isLast}
           />
+        </Tooltip>
+        <Tooltip title="撤销">
+          <Button shape="circle" icon={<UndoOutlined />} onClick={() => dispatch(undo())} />
+        </Tooltip>
+        <Tooltip title="重做">
+          <Button shape="circle" icon={<RedoOutlined />} onClick={() => dispatch(redo())} />
         </Tooltip>
       </Space>
     </div>
