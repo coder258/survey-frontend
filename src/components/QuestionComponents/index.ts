@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 16:01:25
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-05 10:41:53
+ * @LastEditTime: 2025-09-09 16:51:27
  * @FilePath: \survey-frontend\src\components\QuestionComponents\index.ts
  * @Description: 统一管理所有组件的配置信息
  *
@@ -72,6 +72,7 @@ export const componentConfGroup: ComponentConfGroupType[] = [
     groupName: '用户选择',
     components: [QuestionRadioConf, QuestionCheckboxConf, QuestionRateConf],
   },
+  // TODO：添加文件上传，支持图片上传(支持本地预览、裁剪)、大文件上传
 ];
 
 /**
