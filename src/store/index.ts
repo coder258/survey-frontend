@@ -17,7 +17,6 @@ export default configureStore({
       limit: 20,
       filter: (action: UnknownAction) => {
         const actionFilterList = [
-          'components/resetComponents',
           'components/setSelectedId',
           'components/selectPrevComponent',
           'components/selectNextComponent',
@@ -28,6 +27,7 @@ export default configureStore({
         }
         return false;
       },
+      initTypes: ['components/resetComponents'],
     }),
     pageInfo: pageInfoReducer,
   },

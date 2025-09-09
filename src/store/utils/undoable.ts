@@ -1,5 +1,6 @@
 import { UnknownAction } from '@reduxjs/toolkit';
 import { UNDO, REDO, CLEAR_HISTORY } from './undoActions';
+import { produce } from 'immer';
 
 // 历史状态结构
 export type HistoryState<T> = {
@@ -15,10 +16,9 @@ type Config = {
   initTypes?: string[]; // 初始化历史的状态
 };
 
-// ==================== 核心实现 ====================
-
 /**
  * 创建可撤销/重做的高阶reducer
+ * 使用方法: 参考src/store/index.ts
  * @param originalReducer 原始reducer
  * @param config 配置选项
  */
@@ -53,30 +53,29 @@ const createUndoableReducer = <T>(
 
     // 处理撤销动作
     if (action.type === UNDO) {
-      if (past.length === 0) return state;
+      if (past.length === 0) {
+        return state;
+      }
+      const res = produce(state, (draft: HistoryState<T>) => {
+        draft.future.unshift(draft.present);
+        draft.present = draft.past.pop() as T;
+      });
 
-      const previous = past[past.length - 1];
-      const newPast = past.slice(0, past.length - 1);
-
-      return {
-        past: newPast,
-        present: previous,
-        future: [present, ...future],
-      };
+      return res;
     }
 
     // 处理重做动作
     if (action.type === REDO) {
-      if (future.length === 0) return state;
+      if (future.length === 0) {
+        return state;
+      }
 
-      const next = future[0];
-      const newFuture = future.slice(1);
+      const res = produce(state, (draft: HistoryState<T>) => {
+        draft.past.push(draft.present);
+        draft.present = draft.future.shift() as T;
+      });
 
-      return {
-        past: [...past, present],
-        present: next,
-        future: newFuture,
-      };
+      return res;
     }
 
     // 处理清除历史动作
@@ -106,21 +105,16 @@ const createUndoableReducer = <T>(
     }
 
     // 处理普通action
-    // 1. 将当前状态存入past状态
-    // 2. 计算当前的新状态
-    // 3. 清空future状态
-    let newPast = [...past, present];
+    return produce(state, (draft: HistoryState<T>) => {
+      draft.past.push(draft.present);
+      draft.present = newPresent;
+      draft.future = [];
 
-    // 应用历史记录限制
-    if (newPast.length > limit) {
-      newPast = newPast.slice(newPast.length - limit);
-    }
-
-    return {
-      past: newPast,
-      present: newPresent,
-      future: [], // 清空future栈
-    };
+      // 应用历史记录限制
+      if (draft.past.length > limit) {
+        draft.past = draft.past.slice(draft.past.length - limit);
+      }
+    });
   };
 };
 
