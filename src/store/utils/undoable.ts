@@ -1,6 +1,7 @@
 import { UnknownAction } from '@reduxjs/toolkit';
 import { UNDO, REDO, CLEAR_HISTORY } from './undoActions';
 import { produce } from 'immer';
+import { isEqual } from '../../utils/lodash';
 
 // 历史状态结构
 export type HistoryState<T> = {
@@ -91,7 +92,7 @@ const createUndoableReducer = <T>(
     const newPresent = originalReducer(present, action);
 
     // 如果状态没有变化，直接返回原状态
-    if (newPresent === present) {
+    if (isEqual(newPresent, present)) {
       return state;
     }
 

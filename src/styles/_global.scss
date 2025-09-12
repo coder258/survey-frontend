@@ -14,3 +14,10 @@
 div[role="button"] {
     outline: 0;
 }
+
+// loading样式
+.loading-center {
+    width: 100%;
+    height: 100%;
+    @include flex-center;
+}

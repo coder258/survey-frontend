@@ -1,0 +1,62 @@
+.container {
+    @include flex-column-start;
+    height: 100vh;
+    background: #f0f2f5;
+}
+
+.header {
+    background: #fff;
+    height: 50px;
+}
+
+.content-wrapper {
+    flex: auto;
+    padding: 12px 0;
+    overflow: hidden;
+}
+
+.content {
+    margin: 0 17px;
+    display: flex;
+    gap: 17px;
+    height: 100%;
+
+    .left,
+    .right {
+        overflow: hidden;
+
+        .lr-wrapper {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            padding: 0 12px;
+            overflow: auto;
+        }
+    }
+
+    .left {
+        width: 400px;
+
+        .lr-wrapper {
+            padding: 0;
+        }
+    }
+
+    .right {
+        width: 300px;
+    }
+
+    .main {
+        flex: 1;
+        @include flex-center;
+        overflow: hidden;
+
+        .table-wrapper {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            overflow: auto;
+            box-shadow: 0 2px 7px rgb(159, 159, 159);
+        }
+    }
+}
