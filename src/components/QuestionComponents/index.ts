@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 16:01:25
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-09 16:51:27
+ * @LastEditTime: 2025-09-15 11:02:11
  * @FilePath: \survey-frontend\src\components\QuestionComponents\index.ts
  * @Description: 统一管理所有组件的配置信息
  *
@@ -14,9 +14,18 @@ import QuestionTitleConf, { QuestionTitlePropsType } from './QuestionTitle';
 import QuestionParagraphConf, { QuestionParagraphPropsType } from './QuestionParagraph';
 import QuestionInfoConf, { QuestionInfoPropsType } from './QuestionInfo';
 import QuestionTextAreaConf, { QuestionTextAreaPropsType } from './QuestionTextArea';
-import QuestionRadioConf, { QuestionRadioPropsType } from './QuestionRadio';
-import QuestionRateConf, { QuestionRatePropsType } from './QuestionRate';
-import QuestionCheckboxConf, { QuestionCheckboxPropsType } from './QuestionCheckbox';
+import QuestionRadioConf, {
+  QuestionRadioPropsType,
+  QuestionRadioStatComponentPropsType,
+} from './QuestionRadio';
+import QuestionRateConf, {
+  QuestionRatePropsType,
+  QuestionRateStatComponentPropsType,
+} from './QuestionRate';
+import QuestionCheckboxConf, {
+  QuestionCheckboxPropsType,
+  QuestionCheckboxStatComponentPropsType,
+} from './QuestionCheckbox';
 
 // 各个组件统一的 props 类型
 export type ComponentPropsType = QuestionInputPropsType &
@@ -28,6 +37,11 @@ export type ComponentPropsType = QuestionInputPropsType &
   QuestionRatePropsType &
   QuestionCheckboxPropsType;
 
+// 统计组件的统一属性类型
+export type StatComponentPropsType = QuestionRadioStatComponentPropsType &
+  QuestionCheckboxStatComponentPropsType &
+  QuestionRateStatComponentPropsType;
+
 // 组件配置信息类型
 export type ComponentConfType = {
   title: string;
@@ -35,6 +49,7 @@ export type ComponentConfType = {
   Component: FC<ComponentPropsType>;
   PropsComponent: FC<ComponentPropsType>;
   defaultProps: ComponentPropsType;
+  StatComponent?: FC<StatComponentPropsType>;
 };
 
 // 所有组件的配置列表

@@ -23,3 +23,11 @@ export const QuestionRateDefaultProps: QuestionRatePropsType = {
   allowHalf: true,
   tooltips: ['极差', '失望', '一般', '满意', '惊喜'],
 };
+
+// 统计组件的属性类型
+export type QuestionRateStatComponentPropsType = {
+  stat: Array<{
+    type: string;
+    value: number;
+  }>;
+};

@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-04 14:35:12
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-04 14:43:00
+ * @LastEditTime: 2025-09-15 10:16:19
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionCheckbox\interface.ts
  * @Description: Checkbox 组件的接口定义文件，用于定义组件的属性类型和默认属性。
  *
@@ -30,4 +30,13 @@ export const QuestionCheckboxDefaultProps: QuestionCheckboxPropsType = {
     { label: '选项2', value: 'option2', checked: false },
     { label: '选项3', value: 'option3', checked: false },
   ],
+};
+
+// 统计组件的属性类型
+export type QuestionCheckboxStatComponentPropsType = {
+  stat: Array<{
+    type: string;
+    value: number;
+  }>;
+  rightChartWidth?: string;
 };

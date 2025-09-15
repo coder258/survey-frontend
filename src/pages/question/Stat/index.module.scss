@@ -1,3 +1,15 @@
+:root {
+   --chart-width: 300px;
+}
+
+@mixin lr-wrapper-common {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    padding: 0 12px;
+    overflow: auto;
+}
+
 .container {
     @include flex-column-start;
     height: 100vh;
@@ -24,26 +36,25 @@
     .left,
     .right {
         overflow: hidden;
-
-        .lr-wrapper {
-            width: 100%;
-            height: 100%;
-            background: #fff;
-            padding: 0 12px;
-            overflow: auto;
-        }
     }
 
     .left {
         width: 400px;
 
         .lr-wrapper {
+            @include lr-wrapper-common;
             padding: 0;
         }
     }
 
     .right {
-        width: 300px;
+        width: var(--chart-width);
+        transition: .3s;
+
+        .lr-wrapper {
+            @include lr-wrapper-common;
+            @include flex-center;
+        }
     }
 
     .main {
