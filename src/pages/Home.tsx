@@ -9,6 +9,7 @@ const { Title, Paragraph } = Typography;
 
 const Home: FC = () => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const yRange = [-3, 3];
   const xRange = [-3, 3];
   const nav = useNavigate();
@@ -25,6 +26,10 @@ const Home: FC = () => {
     if (!cardElem) {
       return;
     }
+    const containerElem = containerRef.current;
+    if (!containerElem) {
+      return;
+    }
     const rect = cardElem.getBoundingClientRect();
     const { left, top, width, height } = rect;
 
@@ -35,7 +40,7 @@ const Home: FC = () => {
       cardElem.style.transition = 'none';
     };
 
-    cardElem.onmouseenter = () => {
+    containerElem.onmouseenter = () => {
       cardElem.addEventListener('transitionend', removeTransition);
     };
 
@@ -61,23 +66,27 @@ const Home: FC = () => {
       }
     };
 
-    cardElem.onmouseleave = () => {
+    containerElem.onmouseleave = () => {
       cardElem.style.transition = '0.5s';
       cardElem.removeEventListener('transitionend', removeTransition);
+    };
+
+    cardElem.onmouseleave = () => {
       cardElem.style.setProperty('--rx', '0deg');
       cardElem.style.setProperty('--ry', '0deg');
     };
 
     return () => {
-      cardElem.onmouseenter = null;
       cardElem.onmousemove = null;
       cardElem.onmouseleave = null;
       cardElem.removeEventListener('transitionend', removeTransition);
+      containerElem.onmouseenter = null;
+      containerElem.onmouseleave = null;
     };
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={containerRef}>
       <div className={styles.info}>
         <Title>问卷调查 | 在线投票</Title>
         <Paragraph>已累计创建问卷 100 份，发布问卷 90 份，收到答卷 980 份</Paragraph>
