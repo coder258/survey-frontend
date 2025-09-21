@@ -1,23 +1,81 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Typography } from 'antd';
 import { MANAGE_INDEX_PATHNAME } from '../router';
 import styles from './Home.module.scss';
+import ComponentLib from './question/Edit/ComponentLib';
 
 const { Title, Paragraph } = Typography;
 
 const Home: FC = () => {
-  useEffect(() => {
-    fetch('/api/test')
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-      });
-  }, []);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const yRange = [-3, 3];
+  const xRange = [-3, 3];
   const nav = useNavigate();
   const startBtnHandler = () => {
     nav(MANAGE_INDEX_PATHNAME);
   };
+
+  const getRotate = (range: number[], value: number, max: number): number => {
+    return (value / max) * (range[1] - range[0]) + range[0];
+  };
+
+  useEffect(() => {
+    const cardElem = cardRef.current;
+    if (!cardElem) {
+      return;
+    }
+    const rect = cardElem.getBoundingClientRect();
+    const { left, top, width, height } = rect;
+
+    const removeTransition = (event: TransitionEvent) => {
+      if (event.target !== cardElem) {
+        return;
+      }
+      cardElem.style.transition = 'none';
+    };
+
+    cardElem.onmouseenter = () => {
+      cardElem.addEventListener('transitionend', removeTransition);
+    };
+
+    let ticking = false;
+    let lastEvent: MouseEvent | null = null;
+
+    cardElem.onmousemove = (event: MouseEvent) => {
+      lastEvent = event;
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (lastEvent) {
+            const { clientX, clientY } = lastEvent;
+            const x = clientX - left;
+            const y = clientY - top;
+            const ry = -getRotate(yRange, x, width);
+            const rx = getRotate(xRange, y, height);
+            cardElem.style.setProperty('--rx', `${rx}deg`);
+            cardElem.style.setProperty('--ry', `${ry}deg`);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    cardElem.onmouseleave = () => {
+      cardElem.style.transition = '0.5s';
+      cardElem.removeEventListener('transitionend', removeTransition);
+      cardElem.style.setProperty('--rx', '0deg');
+      cardElem.style.setProperty('--ry', '0deg');
+    };
+
+    return () => {
+      cardElem.onmouseenter = null;
+      cardElem.onmousemove = null;
+      cardElem.onmouseleave = null;
+      cardElem.removeEventListener('transitionend', removeTransition);
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.info}>
@@ -28,6 +86,9 @@ const Home: FC = () => {
             开始使用
           </Button>
         </div>
+      </div>
+      <div className={styles.card} ref={cardRef}>
+        <ComponentLib pointer={true} />
       </div>
     </div>
   );

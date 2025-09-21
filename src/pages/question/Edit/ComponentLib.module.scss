@@ -1,4 +1,8 @@
 .container {
+
+    .flex-center {
+        @include flex-center;
+    }
 }
 
 .wrapper {

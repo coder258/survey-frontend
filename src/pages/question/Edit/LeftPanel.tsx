@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 14:42:01
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-04 15:54:51
+ * @LastEditTime: 2025-09-21 15:50:19
  * @FilePath: \survey-frontend\src\pages\question\Edit\LeftPanel.tsx
  * @Description: 左侧面板
  *
@@ -21,7 +21,7 @@ const LeftPanel: FC = () => {
       key: 'componentLib',
       label: <span>组件库</span>,
       icon: <AppstoreAddOutlined />,
-      children: <ComponentLib />,
+      children: <ComponentLib pointer={false} />,
     },
     {
       key: 'layers',

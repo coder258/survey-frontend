@@ -8,7 +8,7 @@ import styles from './ComponentLib.module.scss';
 
 const { Title } = Typography;
 
-const renderComponent = (c: ComponentConfType) => {
+const renderComponent = (c: ComponentConfType, pointer: boolean) => {
   const { title, type, Component, defaultProps } = c;
   const dispatch = useDispatch();
 
@@ -29,16 +29,21 @@ const renderComponent = (c: ComponentConfType) => {
       key={type}
       onClick={addComponentClickHandler}
     >
-      <div className={styles['component']}>
+      <div className={pointer ? '' : styles['component']}>
         <Component />
       </div>
     </div>
   );
 };
 
-const ComponentLib: FC = () => {
+const ComponentLib: FC<{ pointer: boolean }> = ({ pointer = false }: { pointer?: boolean }) => {
   return (
     <div className={styles.container}>
+      {pointer && (
+        <div className={styles['flex-center']}>
+          <Title level={4}>组件库</Title>
+        </div>
+      )}
       {componentConfGroup.map((group, index) => {
         const { groupId, groupName, components } = group;
 
@@ -49,7 +54,7 @@ const ComponentLib: FC = () => {
             </Title>
             <div>
               {components.map(c => {
-                return renderComponent(c);
+                return renderComponent(c, pointer);
               })}
             </div>
           </div>

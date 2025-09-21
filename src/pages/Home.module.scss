@@ -1,7 +1,13 @@
+:root {
+    --rx: 0deg;
+    --ry: 0deg;
+}
+
 .container {
     flex: 1;
     @include flex-column-center;
     background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+    position: relative;
 
     .info {
         text-align: center;
@@ -10,5 +16,30 @@
             height: 60px;
             font-size: 24px;
         }
+    }
+
+    .card {
+        position: absolute;
+        right: 10px;
+        top: 0;
+        width: 400px;
+        height: 100%;
+        background: rgba(255, 255, 255, .95);
+        backdrop-filter: blur(10px);
+        transform: scale(1.035) perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry));
+        filter: blur(2.25px);
+        padding: 0 12px;
+        box-shadow: 0 0 25px rgba(#005a5f, .5);
+        overflow: auto;
+        z-index: 1;
+        will-change: transform;
+        transition: .5s;
+    }
+}
+
+.container:hover {
+    .card {
+        filter: blur(0px);
+        transform: scale(1) perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry));
     }
 }

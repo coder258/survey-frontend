@@ -1,9 +1,12 @@
 .layout {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .header {
   padding: 0 24px;
+  z-index: 5;
+
   .left {
     float: left;
   }
@@ -14,12 +17,13 @@
 }
 
 .content {
-   flex: 1;
-   display: flex;
+  flex: 1;
+  display: flex;
 }
 
 .footer {
   text-align: center;
   background: #f7f7f7;
   border-top: 1px solid #e8e8e8;
+  z-index: 5;
 }
