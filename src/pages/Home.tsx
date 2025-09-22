@@ -10,8 +10,8 @@ const { Title, Paragraph } = Typography;
 const Home: FC = () => {
   const cardRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const yRange = [-3, 3];
-  const xRange = [-3, 3];
+  const yRange = [-5, 5];
+  const xRange = [-5, 5];
   const nav = useNavigate();
   const startBtnHandler = () => {
     nav(MANAGE_INDEX_PATHNAME);
