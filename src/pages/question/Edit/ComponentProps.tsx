@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 16:38:32
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-02 16:05:04
+ * @LastEditTime: 2025-09-24 12:24:37
  * @FilePath: \survey-frontend\src\pages\question\Edit\ComponentProps.tsx
  * @Description: 组件属性编辑组件
  *

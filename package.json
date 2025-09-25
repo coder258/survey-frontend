@@ -20,6 +20,7 @@
     "@types/react-dom": "^18.3.0",
     "ahooks": "^3.9.0",
     "antd": "^5.26.7",
+    "antd-img-crop": "^4.25.0",
     "axios": "^1.11.0",
     "cross-env": "^7.0.3",
     "immer": "^10.1.1",

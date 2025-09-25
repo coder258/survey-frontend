@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-29 16:01:25
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-15 11:02:11
+ * @LastEditTime: 2025-09-24 17:23:13
  * @FilePath: \survey-frontend\src\components\QuestionComponents\index.ts
  * @Description: 统一管理所有组件的配置信息
  *
@@ -26,6 +26,10 @@ import QuestionCheckboxConf, {
   QuestionCheckboxPropsType,
   QuestionCheckboxStatComponentPropsType,
 } from './QuestionCheckbox';
+import QuestionUploadPicConf, { QuestionUploadPicPropsType } from './QuestionUploadPic';
+import QuestionUploadLargeFileConf, {
+  QuestionUploadLargeFilePropsType,
+} from './QuestionUploadLargeFile';
 
 // 各个组件统一的 props 类型
 export type ComponentPropsType = QuestionInputPropsType &
@@ -35,7 +39,9 @@ export type ComponentPropsType = QuestionInputPropsType &
   QuestionTextAreaPropsType &
   QuestionRadioPropsType &
   QuestionRatePropsType &
-  QuestionCheckboxPropsType;
+  QuestionCheckboxPropsType &
+  QuestionUploadPicPropsType &
+  QuestionUploadLargeFilePropsType;
 
 // 统计组件的统一属性类型
 export type StatComponentPropsType = QuestionRadioStatComponentPropsType &
@@ -62,6 +68,8 @@ const componentConfList: ComponentConfType[] = [
   QuestionRadioConf,
   QuestionCheckboxConf,
   QuestionRateConf,
+  QuestionUploadPicConf,
+  QuestionUploadLargeFileConf,
 ];
 
 export type ComponentConfGroupType = {
@@ -87,7 +95,11 @@ export const componentConfGroup: ComponentConfGroupType[] = [
     groupName: '用户选择',
     components: [QuestionRadioConf, QuestionCheckboxConf, QuestionRateConf],
   },
-  // TODO：添加文件上传，支持图片上传(支持本地预览、裁剪)、大文件上传
+  {
+    groupId: 'uploadGroup',
+    groupName: '文件上传',
+    components: [QuestionUploadPicConf, QuestionUploadLargeFileConf],
+  },
 ];
 
 /**
