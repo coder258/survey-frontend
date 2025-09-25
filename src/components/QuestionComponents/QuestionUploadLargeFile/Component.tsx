@@ -2,16 +2,16 @@
  * @Author: 唐宇
  * @Date: 2025-09-23 16:44:11
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-24 17:29:02
+ * @LastEditTime: 2025-09-25 16:31:11
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionUploadLargeFile\Component.tsx
  * @Description: 大文件上传组件
  *
  * Copyright (c) 2025 by 唐宇, All Rights Reserved.
  */
 import React, { FC } from 'react';
-import { Typography, Upload, Image } from 'antd';
+import { Space, Typography, Upload } from 'antd';
 import { QuestionUploadLargeFileDefaultProps, QuestionUploadLargeFilePropsType } from './interface';
-import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
+import { FileOutlined, InboxOutlined } from '@ant-design/icons';
 
 const { Paragraph } = Typography;
 
@@ -25,9 +25,12 @@ const QuestionUploadLargeFile: FC<QuestionUploadLargeFilePropsType> = (
       <Paragraph strong>{title}</Paragraph>
       <div>
         {file ? (
-          <Image src={file.url} width={102}></Image>
+          <Space direction="vertical">
+            <FileOutlined style={{ fontSize: '46px', color: '#1677ff' }} />
+            <Paragraph>{file.name}</Paragraph>
+          </Space>
         ) : (
-          <Upload.Dragger maxCount={1} name="file">
+          <Upload.Dragger maxCount={1} name="file" beforeUpload={() => false}>
             <Paragraph>
               <InboxOutlined style={{ fontSize: '32px', color: '#1677ff' }} />
             </Paragraph>

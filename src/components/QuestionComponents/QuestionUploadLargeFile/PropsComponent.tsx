@@ -2,9 +2,9 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 16:11:42
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-24 17:29:58
+ * @LastEditTime: 2025-09-25 17:21:31
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionUploadLargeFile\PropsComponent.tsx
- * @Description: 图片上传 属性配置组件
+ * @Description: 大文件上传 属性配置组件
  *
  * Copyright (c) 2025 by 唐宇, All Rights Reserved.
  */
@@ -18,13 +18,13 @@ import {
   GetProp,
   UploadFile,
   UploadProps,
-  InputNumber,
   message,
   Tooltip,
   Typography,
+  InputNumber,
 } from 'antd';
-import ImgCrop from 'antd-img-crop';
-import { InboxOutlined, InfoCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { InboxOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { cutFile } from './utils/cutFile';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 const { Paragraph } = Typography;
@@ -32,25 +32,28 @@ const { Paragraph } = Typography;
 const PropsComponent: FC<QuestionUploadLargeFilePropsType> = (
   props: QuestionUploadLargeFilePropsType
 ) => {
-  const { title, acceptFileType, file, onChange: onFormChange, disabled } = props;
+  const { title, acceptFileType, maxSize = 1024, file, onChange: onFormChange, disabled } = props;
   const [form] = Form.useForm();
   const [_fileList, _setFileList] = useState<UploadFile[]>([]);
+  let _file: any = file;
 
   useEffect(() => {
     form.setFieldsValue({
       title,
       acceptFileType,
+      maxSize,
     });
     if (!file) {
       _setFileList([]);
       return;
     }
     _setFileList([file]);
-  }, [title, acceptFileType, file]);
+  }, [title, acceptFileType, file, maxSize]);
 
   const formChangeHandler = () => {
     if (onFormChange) {
       const newValues = form.getFieldsValue();
+      newValues.file = _file;
       onFormChange(newValues);
     }
   };
@@ -62,11 +65,38 @@ const PropsComponent: FC<QuestionUploadLargeFilePropsType> = (
       return Upload.LIST_IGNORE;
     }
 
+    const isBelowMaxSize = file.size / 1024 / 1024 < maxSize;
+    if (!isBelowMaxSize) {
+      message.error('文件大小超过限制！');
+      return Upload.LIST_IGNORE;
+    }
+
     return false;
   };
 
   const fileChangeHandler: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
-    _setFileList(newFileList);
+    // 搞个假进度条
+    _setFileList([
+      {
+        ...newFileList[0],
+        status: 'uploading',
+        percent: 95,
+      },
+    ]);
+    _file = newFileList[0];
+    if (newFileList.length === 1) {
+      console.time('cutFile');
+      const chunks = await cutFile(newFileList[0].originFileObj as FileType);
+      console.timeEnd('cutFile');
+      console.log('chunks: ', chunks);
+      _setFileList([
+        {
+          ...newFileList[0],
+          status: 'done',
+          percent: 100,
+        },
+      ]);
+    }
     formChangeHandler();
   };
 
@@ -74,7 +104,7 @@ const PropsComponent: FC<QuestionUploadLargeFilePropsType> = (
     <Form
       layout="vertical"
       disabled={disabled}
-      initialValues={{ title, acceptFileType }}
+      initialValues={{ title, acceptFileType, maxSize }}
       form={form}
       onValuesChange={formChangeHandler}
     >
@@ -83,20 +113,33 @@ const PropsComponent: FC<QuestionUploadLargeFilePropsType> = (
       </Form.Item>
       <Form.Item label="允许上传的文件类型" name="acceptFileType">
         <Checkbox.Group>
-          <Checkbox value=".pdf">PDF</Checkbox>
-          <Checkbox value=".doc">DOC</Checkbox>
-          <Checkbox value=".xls">XLS</Checkbox>
-          <Checkbox value=".ppt">PPT</Checkbox>
-          <Checkbox value=".docx">DOCX</Checkbox>
-          <Checkbox value=".xlsx">XLSX</Checkbox>
-          <Checkbox value=".pptx">PPTX</Checkbox>
-          <Checkbox value=".txt">TXT</Checkbox>
-          <Checkbox value=".zip">ZIP</Checkbox>
-          <Checkbox value=".rar">RAR</Checkbox>
-          <Checkbox value=".mp3">MP3</Checkbox>
-          <Checkbox value=".mp4">MP4</Checkbox>
-          <Checkbox value=".wav">WAV</Checkbox>
+          <Checkbox value="application/pdf">PDF</Checkbox>
+          <Checkbox value="application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+            DOCX
+          </Checkbox>
+          <Checkbox value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            XLSX
+          </Checkbox>
+          <Checkbox value="application/vnd.openxmlformats-officedocument.presentationml.presentation">
+            PPTX
+          </Checkbox>
+          <Checkbox value="text/plain">TXT</Checkbox>
+          <Checkbox value="application/x-zip-compressed">ZIP</Checkbox>
+          <Checkbox value="audio/mp3">MP3</Checkbox>
+          <Checkbox value="video/mp4">MP4</Checkbox>
+          <Checkbox value="audio/wav">WAV</Checkbox>
         </Checkbox.Group>
+      </Form.Item>
+      <Form.Item label="允许上传的单个文件大小" name="maxSize">
+        <InputNumber
+          addonBefore={
+            <Tooltip title="单个文件最大多少M，范围在100M~2048M之间。">
+              <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+            </Tooltip>
+          }
+          min={100}
+          max={1024 * 2}
+        />
       </Form.Item>
       <Form.Item
         label={
@@ -109,7 +152,13 @@ const PropsComponent: FC<QuestionUploadLargeFilePropsType> = (
           </div>
         }
       >
-        <Upload.Dragger maxCount={1} name="file" beforeUpload={beforeUpload}>
+        <Upload.Dragger
+          maxCount={1}
+          name="file"
+          beforeUpload={beforeUpload}
+          fileList={_fileList}
+          onChange={fileChangeHandler}
+        >
           <Paragraph>
             <InboxOutlined style={{ fontSize: '32px', color: '#1677ff' }} />
           </Paragraph>

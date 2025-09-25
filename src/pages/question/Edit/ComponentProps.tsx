@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 16:38:32
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-24 12:24:37
+ * @LastEditTime: 2025-09-25 16:39:51
  * @FilePath: \survey-frontend\src\pages\question\Edit\ComponentProps.tsx
  * @Description: 组件属性编辑组件
  *
@@ -45,6 +45,7 @@ const ComponentProps: FC = () => {
       return;
     }
     const { fe_id } = selectedComponent;
+    console.log('propsComponentChangeHandler', selectedComponent);
     dispatch(changeComponentProps({ fe_id, newProps }));
   };
   return (
