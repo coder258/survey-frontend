@@ -4,6 +4,7 @@ import { getToken } from '../utils/user-token';
 
 const instance = axios.create({
   timeout: 1000 * 10,
+  baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 
 instance.interceptors.request.use(

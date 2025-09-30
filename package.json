@@ -73,6 +73,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.7",
     "prettier": "^3.3.3",
-    "sass": "^1.89.2"
+    "sass": "^1.89.2",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }

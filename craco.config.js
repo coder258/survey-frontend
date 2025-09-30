@@ -1,11 +1,12 @@
 const path = require('path');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   devServer: {
     port: 8000,
-    proxy: {
-      '/api': 'http://localhost:3001'
-    }
+    // proxy: {
+    //   '/api': 'http://localhost:3001'
+    // }
   },
   style: {
     sass: {
@@ -26,8 +27,38 @@ module.exports = {
         path.resolve(__dirname, 'src'),
         'node_modules',
       ];
-      
+
+      if (webpackConfig.mode === 'production') {
+        if (webpackConfig.optimization === null) {
+          webpackConfig.optimization = {};
+        }
+
+        webpackConfig.optimization.splitChunks = {
+          chunks: 'all',
+          cacheGroups: {
+            antd: {
+              name: 'antd-chunk',
+              test: /antd/,
+              priority: 100
+            },
+            reactDom: {
+              name: 'reactDom-chunk',
+              test: /react-dom/,
+              priority: 99
+            },
+            venders: {
+              name: 'vendors-chunk',
+              test: /node_modules/,
+              priority: 98
+            }
+          }
+        };
+      }
+
       return webpackConfig;
-    }
-  }
+    },
+    plugins: [
+      new BundleAnalyzerPlugin()
+    ]
+  },
 };

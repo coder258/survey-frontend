@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-05 16:59:48
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-13 16:23:42
+ * @LastEditTime: 2025-09-28 11:51:55
  * @FilePath: \survey-frontend\src\router\index.tsx
  * @Description: 路由配置
  *
@@ -21,8 +21,11 @@ import NotFound from '../pages/NotFound';
 import List from '../pages/manage/List';
 import Trash from '../pages/manage/Trash';
 import Star from '../pages/manage/Star';
-import Edit from '../pages/question/Edit';
-import Stat from '../pages/question/Stat';
+// import Edit from '../pages/question/Edit';
+// import Stat from '../pages/question/Stat';
+
+const Edit = React.lazy(() => import(/* webpackChunkName: "EditPage" */ '../pages/question/Edit'));
+const Stat = React.lazy(() => import(/* webpackChunkName: "StatPage" */ '../pages/question/Stat'));
 
 const router = createBrowserRouter([
   {
