@@ -40,7 +40,7 @@
     "prod": "cross-env REACT_APP_ENV=production craco start",
     "build:dev": "cross-env REACT_APP_ENV=development craco build",
     "build:prod": "cross-env REACT_APP_ENV=production craco build",
-    "test": "craco test",
+    "test": "craco test --watchAll=false",
     "eject": "craco eject",
     "lint": " eslint \"src/**/*.+(js|ts|jsx|tsx)\" ",
     "format": " prettier --write \"src/**/*.+(js|ts|jsx|tsx)\" ",
