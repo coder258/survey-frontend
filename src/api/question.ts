@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-25 10:15:00
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-05 17:14:23
+ * @LastEditTime: 2025-10-21 16:55:11
  * @FilePath: \survey-frontend\src\api\question.ts
  * @Description: 问卷服务相关接口
  *
@@ -88,7 +88,7 @@ export const updateQuestionApi = async (
  * @returns 返回API调用的结果，类型为ResDataType
  */
 export const duplicateQuestionApi = async (id: string): Promise<ResDataType> => {
-  const url = `/api/question//duplicate/${id}`;
+  const url = `/api/question/duplicate/${id}`;
   const data = (await axios.post(url)) as ResDataType;
   return data;
 };

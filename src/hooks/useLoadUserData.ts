@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-28 16:05:04
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-28 16:19:02
+ * @LastEditTime: 2025-10-21 16:50:27
  * @FilePath: \survey-frontend\src\hooks\useLoadUserData.ts
  * @Description: 加载用户数据钩子
  *
@@ -14,6 +14,7 @@ import { useRequest } from 'ahooks';
 import { getUserInfoApi } from '../api/user';
 import { loginReducer } from '../store/userReducer';
 import useGetUserInfo from './useGetUserInfo';
+import { useLocation } from 'react-router-dom';
 
 const useLoadUserData = () => {
   const dispatch = useDispatch();
@@ -30,13 +31,14 @@ const useLoadUserData = () => {
   });
 
   const { username } = useGetUserInfo();
+  const { pathname } = useLocation();
   useEffect(() => {
     if (username) {
       setWaitingUserData(false);
       return;
     }
     run();
-  }, [username]);
+  }, [username, pathname]);
 
   return { waitingUserData };
 };

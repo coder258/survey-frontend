@@ -13,7 +13,6 @@ instance.interceptors.request.use(
     return config;
   },
   error => {
-    message.error('网络请求失败');
     return Promise.reject(error);
   }
 );
@@ -29,7 +28,6 @@ instance.interceptors.response.use(
     return data as any;
   },
   error => {
-    message.error('网络请求失败');
     return Promise.reject(error);
   }
 );

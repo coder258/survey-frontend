@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-05 16:40:35
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-25 10:42:04
+ * @LastEditTime: 2025-10-21 15:51:29
  * @FilePath: \survey-frontend\src\layouts\ManageLayout.tsx
  * @Description: 管理模板
  *
@@ -45,7 +45,7 @@ const ManageLayout: FC = () => {
   } = useRequest(createQuestionApi, {
     manual: true,
     onSuccess(ressult) {
-      nav(`/question/edit/${ressult.id}`);
+      nav(`/question/edit/${ressult.id || ressult._id}`);
       message.success('问卷创建成功');
     },
   });

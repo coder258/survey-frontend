@@ -6,6 +6,7 @@ import { REGISTER_PATHNAME, MANAGE_INDEX_PATHNAME } from '../router';
 import styles from './Login.module.scss';
 import { loginApi } from '../api/user';
 import { useRequest } from 'ahooks';
+import { setToken } from '../utils/user-token';
 
 const { Title } = Typography;
 
@@ -28,7 +29,7 @@ const Login: FC = () => {
       manual: true,
       onSuccess: data => {
         // 存储token等登录信息
-        localStorage.setItem('token', data.token);
+        setToken(data.token);
         message.success('登录成功');
         // 跳转到我的问卷页面
         nav(MANAGE_INDEX_PATHNAME);

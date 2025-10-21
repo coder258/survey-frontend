@@ -59,9 +59,9 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
     {
       manual: true,
       onSuccess: data => {
-        if (data.id) {
+        if (data.id || data._id) {
           message.success('复制成功');
-          nav(`/question/edit/${data._id}`);
+          nav(`/question/edit/${data._id || data.id}`);
         }
         setOpenCopyPop(false);
       },
