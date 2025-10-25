@@ -7,6 +7,7 @@ import ListSearch from '../../components/ListSearch';
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData';
 import ListPagination from '../../components/ListPagination';
 import { updateQuestionApi, deleteQuestionApi } from '../../api/question';
+import DateFormatter from '../../utils/date-format';
 
 const { Title } = Typography;
 
@@ -56,7 +57,8 @@ const Trash: FC = () => {
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (createdAt: string) => {
-        return <Tag color="blue">{createdAt}</Tag>;
+        const newDate = DateFormatter.format({ date: createdAt, format: 'yyyy-MM-dd HH:mm:ss' });
+        return <Tag color="blue">{newDate}</Tag>;
       },
     },
   ];

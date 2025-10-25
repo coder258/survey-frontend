@@ -19,9 +19,6 @@ const PropsComponent: FC<QuestionCheckboxPropsType> = (props: QuestionCheckboxPr
       const newValues = form.getFieldsValue();
       const { options = [] } = newValues as QuestionCheckboxPropsType;
       options.forEach(option => {
-        if (option.value) {
-          return;
-        }
         option.value = option.label;
       });
       onChange(newValues);

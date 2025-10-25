@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-03 15:07:19
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-03 17:25:08
+ * @LastEditTime: 2025-10-23 14:28:08
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionRadio\PropsComponent.tsx
  * @Description: Radio 属性配置组件
  *
@@ -30,9 +30,6 @@ const PropsComponent: FC<QuestionRadioPropsType> = (props: QuestionRadioPropsTyp
       const newValues = form.getFieldsValue();
       const { options = [] } = newValues as QuestionRadioPropsType;
       options.forEach(option => {
-        if (option.value) {
-          return;
-        }
         option.value = option.label;
       });
       onChange(newValues);

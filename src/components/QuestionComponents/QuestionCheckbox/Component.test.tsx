@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-10-09 14:47:50
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-10-09 14:57:36
+ * @LastEditTime: 2025-10-25 18:06:05
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionCheckbox\Component.test.tsx
  * @Description: QuestionCheckbox组件测试文件
  *
@@ -19,7 +19,7 @@ test('默认属性', () => {
   expect(p).toBeInTheDocument();
 
   for (let i = 1; i <= 3; i++) {
-    const checkbox = screen.getByDisplayValue(`option${i}`);
+    const checkbox = screen.getByDisplayValue(`选项${i}`);
     expect(checkbox).toBeInTheDocument();
     const label = screen.getByText(`选项${i}`);
     expect(label).toBeInTheDocument();

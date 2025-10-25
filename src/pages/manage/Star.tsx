@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-04 16:46:59
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-26 10:54:34
+ * @LastEditTime: 2025-10-23 12:14:59
  * @FilePath: \survey-frontend\src\pages\manage\Star.tsx
  * @Description: 星标问卷页面
  *
@@ -21,8 +21,19 @@ const { Title } = Typography;
 
 const Star: FC = () => {
   useTitle('小慕问卷 - 星标问卷');
-  const { data = {}, loading } = useLoadQuestionListData({ isStar: true });
+  const { data = {}, loading, refresh } = useLoadQuestionListData({ isStar: true });
   const { list = [], total = 0 } = data;
+
+  const onStarChange = () => {
+    // 刷新数据
+    refresh();
+  };
+
+  const onDelete = () => {
+    // 刷新数据
+    refresh();
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -37,7 +48,14 @@ const Star: FC = () => {
         <Spin spinning={loading}>
           <div className={styles.content}>
             {list.length > 0 ? (
-              list.map((question: any) => <QuestionCard key={question._id} {...question} />)
+              list.map((question: any) => (
+                <QuestionCard
+                  onStarChange={onStarChange}
+                  onDelete={onDelete}
+                  key={question._id}
+                  {...question}
+                />
+              ))
             ) : (
               <Empty description="暂无数据" />
             )}

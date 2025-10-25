@@ -2,13 +2,13 @@
  * @Author: 唐宇
  * @Date: 2025-09-02 10:50:48
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-08 15:31:22
+ * @LastEditTime: 2025-10-23 11:57:55
  * @FilePath: \survey-frontend\src\pages\question\Edit\EditHeader.tsx
  * @Description: 编辑问卷头部组件
  *
  * Copyright (c) 2025 by 唐宇, All Rights Reserved.
  */
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './EditHeader.module.scss';
 import { Button, Input, message, Space, Typography } from 'antd';
@@ -27,15 +27,25 @@ const { Title } = Typography;
 const TitleElem: FC = () => {
   const { title } = useGetPageInfo();
   const dispatch = useDispatch();
-
   const [editState, setEditState] = useState<boolean>(false);
+  const [_title, _setTitle] = useState<string>('');
+  useEffect(() => {
+    _setTitle(title);
+  }, [title]);
   const titleChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const newTitle = event.target.value.trim();
-    if (!newTitle) {
+    _setTitle(newTitle);
+  };
+
+  const onEditConfirmHandler = () => {
+    if (!_title) {
       message.warning('问卷标题不能为空');
+      _setTitle(title);
+      setEditState(false);
       return;
     }
-    dispatch(setPageTitle(newTitle));
+    dispatch(setPageTitle(_title));
+    setEditState(false);
   };
 
   if (editState) {
@@ -43,10 +53,10 @@ const TitleElem: FC = () => {
       <Input
         autoFocus
         allowClear
-        value={title}
+        value={_title}
         onChange={titleChangeHandler}
-        onPressEnter={() => setEditState(false)}
-        onBlur={() => setEditState(false)}
+        onPressEnter={onEditConfirmHandler}
+        onBlur={onEditConfirmHandler}
       ></Input>
     );
   }

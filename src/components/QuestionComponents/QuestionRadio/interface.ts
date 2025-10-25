@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-03 14:47:43
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-12 16:55:12
+ * @LastEditTime: 2025-10-23 14:36:38
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionRadio\interface.ts
  * @Description: 单选框组件的接口定义文件，用于定义组件的属性类型和默认属性。
  *
@@ -25,11 +25,11 @@ export type QuestionRadioPropsType = {
 export const QuestionRadioDefaultProps: QuestionRadioPropsType = {
   title: '单选框标题',
   isVertical: false,
-  value: 'option1',
+  value: '',
   options: [
-    { label: '选项1', value: 'option1' },
-    { label: '选项2', value: 'option2' },
-    { label: '选项3', value: 'option3' },
+    { label: '选项1', value: '选项1' },
+    { label: '选项2', value: '选项2' },
+    { label: '选项3', value: '选项3' },
   ],
 };
 

@@ -2,13 +2,13 @@
  * @Author: 唐宇
  * @Date: 2025-09-11 10:56:06
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-12 14:17:06
+ * @LastEditTime: 2025-10-24 17:12:09
  * @FilePath: \survey-frontend\src\pages\question\Stat\StatTable.tsx
  * @Description: 答卷统计表格组件
  *
  * Copyright (c) 2025 by 唐宇, All Rights Reserved.
  */
-import { Space, Spin, Table, Typography } from 'antd';
+import { Image, Space, Spin, Table, Typography } from 'antd';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import styles from './StatTable.module.scss';
 import { useRequest } from 'ahooks';
@@ -87,6 +87,20 @@ const StatTable: FC<PropsType> = (props: PropsType) => {
         ),
         dataIndex: fe_id,
         key: fe_id,
+        render: (value: string) => {
+          switch (type) {
+            case 'questionUploadPic':
+              return <Image width={65} src={value}></Image>;
+            case 'questionTitle':
+              return <span>{props!.text}</span>;
+            case 'questionParagraph':
+              return <span>{props!.text}</span>;
+            case 'questionInfo':
+              return <span>{props!.title}</span>;
+            default:
+              return <span>{value}</span>;
+          }
+        },
       };
     });
   }, [dataSource, selectedId]);

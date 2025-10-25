@@ -12,6 +12,7 @@ import {
 import styles from './QuestionCard.module.scss';
 import { updateQuestionApi, duplicateQuestionApi } from '../api/question';
 import { useRequest } from 'ahooks';
+import DateFormatter from '../utils/date-format';
 
 interface PropsType {
   _id: string;
@@ -27,6 +28,7 @@ interface PropsType {
 const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const nav = useNavigate();
   const { _id, title, isStar, isPublished, answerCount, createdAt } = props;
+  const newDate = DateFormatter.format({ date: createdAt, format: 'yyyy-MM-dd HH:mm:ss' });
   const [isStarState, setIsStarState] = useState(isStar);
   const [openCopyPop, setOpenCopyPop] = useState(false);
   const [openDeletePop, setOpenDeletePop] = useState(false);
@@ -115,7 +117,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
           <Space>
             {isPublished ? <Tag color="processing">已发布</Tag> : <Tag>未发布</Tag>}{' '}
             <span>答卷：{answerCount}</span>
-            <span>{createdAt}</span>
+            <span>{newDate}</span>
           </Space>
         </div>
       </div>

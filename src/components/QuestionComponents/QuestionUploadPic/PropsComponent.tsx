@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 16:11:42
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-24 16:30:42
+ * @LastEditTime: 2025-10-24 12:19:27
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionUploadPic\PropsComponent.tsx
  * @Description: 图片上传 属性配置组件
  *
@@ -24,6 +24,8 @@ import {
 } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { InfoCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { uploadPicApi } from '../../../api/upload';
+import { genFormData } from '../../../utils/http-util';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -108,7 +110,14 @@ const PropsComponent: FC<QuestionUploadPicPropsType> = (props: QuestionUploadPic
     const _file = newFileList[0];
     let _src = '';
     if (_file) {
-      _src = await getImgDataUrl(_file);
+      const body = {
+        file: _file.originFileObj,
+        questionId: '123',
+      };
+      const formData = genFormData(body);
+      const uploadPicApiRes = await uploadPicApi(formData);
+
+      _src = uploadPicApiRes.path;
       fileWithSrc = {
         uid: _file.uid,
         name: _file.name,

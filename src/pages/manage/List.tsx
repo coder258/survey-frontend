@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-04 16:45:54
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-26 16:30:03
+ * @LastEditTime: 2025-10-23 13:20:29
  * @FilePath: \survey-frontend\src\pages\manage\List.tsx
  * @Description: 我的问卷页面
  *
@@ -33,7 +33,11 @@ const List: FC = () => {
   const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || '';
 
   // 加载数据
-  const { run: loadData, loading } = useRequest(
+  const {
+    run: loadData,
+    loading,
+    refresh,
+  } = useRequest(
     async () => {
       const data = await getQuestionListApi({
         keyword,
@@ -60,12 +64,16 @@ const List: FC = () => {
 
   // 重置分页状态
   useEffect(() => {
+    resetStates();
+    // 清空列表后，IntersectionObserver会自动触发加载
+  }, [keyword]);
+
+  const resetStates = () => {
     setPageNum(1);
     setList([]);
     setNoMoreData(false);
     setTotal(0);
-    // 清空列表后，IntersectionObserver会自动触发加载
-  }, [keyword]);
+  };
 
   // 防抖加载更多
   const { run: tryLoadMore } = useDebounceFn(
@@ -100,6 +108,22 @@ const List: FC = () => {
     };
   }, [list, noMoreData]);
 
+  const onStarChange = () => {
+    resetStates();
+    setTimeout(() => {
+      // 刷新数据
+      refresh();
+    }, 0);
+  };
+
+  const onDelete = () => {
+    resetStates();
+    setTimeout(() => {
+      // 刷新数据
+      refresh();
+    }, 0);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -115,11 +139,13 @@ const List: FC = () => {
           {list.length > 0 &&
             list.map((question: any) => (
               <QuestionCard
+                onStarChange={onStarChange}
+                onDelete={onDelete}
                 key={question._id}
                 {...question}
-                onDelete={id => {
-                  setList(list.filter(q => q._id !== id));
-                }}
+                // onDelete={id => {
+                //   setList(list.filter(q => q._id !== id));
+                // }}
               />
             ))}
         </div>

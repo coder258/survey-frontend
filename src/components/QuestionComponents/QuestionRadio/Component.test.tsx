@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-30 17:00:55
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-30 17:08:14
+ * @LastEditTime: 2025-10-25 18:06:29
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionRadio\Component.test.tsx
  * @Description: QuestionRadio组件测试文件
  *
@@ -19,7 +19,7 @@ test('默认属性', () => {
   expect(p).toBeInTheDocument();
 
   for (let i = 1; i <= 3; i++) {
-    const radio = screen.getByDisplayValue(`option${i}`);
+    const radio = screen.getByDisplayValue(`选项${i}`);
     expect(radio).toBeInTheDocument();
     const label = screen.getByText(`选项${i}`);
     expect(label).toBeInTheDocument();
