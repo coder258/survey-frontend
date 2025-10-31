@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getToken } from '../utils/user-token';
 
 const instance = axios.create({
-  timeout: 1000 * 10,
+  timeout: 1000 * 10 * 6,
   baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 

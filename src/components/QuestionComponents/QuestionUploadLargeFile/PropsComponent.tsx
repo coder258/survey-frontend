@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 16:11:42
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-09-25 17:21:31
+ * @LastEditTime: 2025-10-31 17:24:05
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionUploadLargeFile\PropsComponent.tsx
  * @Description: 大文件上传 属性配置组件
  *
@@ -24,7 +24,10 @@ import {
   InputNumber,
 } from 'antd';
 import { InboxOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { cutFile } from './utils/cutFile';
+import { ChunkType, cutFile } from './utils/cutFile';
+import { abort, checkFileStatusApi, mergeChunksApi, uploadChunkApi } from '../../../api/upload';
+import { genFormData } from '../../../utils/http-util';
+import { number } from 'prop-types';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 const { Paragraph } = Typography;
@@ -75,29 +78,131 @@ const PropsComponent: FC<QuestionUploadLargeFilePropsType> = (
   };
 
   const fileChangeHandler: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
-    // 搞个假进度条
-    _setFileList([
-      {
-        ...newFileList[0],
-        status: 'uploading',
-        percent: 95,
-      },
-    ]);
-    _file = newFileList[0];
+    const setProgress = (percent: number, status: 'uploading' | 'error' | 'done') => {
+      _setFileList([
+        {
+          ...newFileList[0],
+          status,
+          percent,
+        },
+      ]);
+    };
     if (newFileList.length === 1) {
+      setProgress(0, 'uploading');
       console.time('cutFile');
       const chunks = await cutFile(newFileList[0].originFileObj as FileType);
       console.timeEnd('cutFile');
       console.log('chunks: ', chunks);
-      _setFileList([
-        {
-          ...newFileList[0],
-          status: 'done',
-          percent: 100,
-        },
-      ]);
+      try {
+        await uploadLargeFile(chunks, setProgress, newFileList);
+      } catch (error) {
+        console.log('uploadLargeFile error: ', error);
+      }
+      formChangeHandler();
+    } else {
+      _setFileList([]);
+      _file = null;
+      formChangeHandler();
     }
-    formChangeHandler();
+  };
+
+  const uploadLargeFile = async (
+    chunks: ChunkType[],
+    setProgress: (percent: number, status: 'uploading' | 'error' | 'done') => void,
+    newFileList: UploadFile[]
+  ): Promise<boolean> => {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      const fileHash = chunks[0].hash + '-' + chunks.at(-1)?.hash;
+      const chunkHashs = chunks.map(chunk => chunk.hash);
+      const totalChunks = chunks.length;
+      const extname = '.' + newFileList[0].originFileObj!.name.split('.').at(-1);
+
+      console.log('开始检测文件上传进度...');
+      // 先检测文件的上传进度
+      const checkFileStatusApiRes = await checkFileStatusApi({
+        fileHash,
+        chunkHashs,
+        totalChunks,
+        extname,
+      });
+      const { neededChunkList, msg } = checkFileStatusApiRes;
+      console.log('检测结束...');
+      if (neededChunkList.length === 0) {
+        // 已上传完成
+        console.log('检测完成，文件已上传完成: ', msg);
+        message.success(msg);
+        setProgress(100, 'done');
+        resolve(true);
+        return;
+      }
+
+      let uploadedChunksCount = totalChunks - neededChunkList.length;
+      let currentProgressPercent: number;
+      const getCurrentProgressPercent = (uploadedChunksCount: number) => {
+        return Math.floor((uploadedChunksCount / totalChunks) * 100);
+      };
+      currentProgressPercent = getCurrentProgressPercent(uploadedChunksCount);
+      setProgress(currentProgressPercent, 'uploading');
+      console.log('开始上传分片...');
+      // 开始上传分片
+      let completedChunks = 0;
+      const uploadChunkHandler = async () => {
+        completedChunks++;
+        uploadedChunksCount++;
+        uploadedChunksCount = Math.min(uploadedChunksCount, totalChunks);
+        currentProgressPercent = getCurrentProgressPercent(uploadedChunksCount);
+        currentProgressPercent = Math.min(currentProgressPercent, 100);
+        if (currentProgressPercent < 100) {
+          setProgress(currentProgressPercent, 'uploading');
+        }
+        if (completedChunks === neededChunkListWithFile.length) {
+          // 所有分片都上传完成了，合并分片
+          console.log('所有分片都上传完成了，开始合并分片...');
+          const mergeChunksApiRes = await mergeChunksApi({ fileHash, extname, chunkHashs });
+          const { msg, path } = mergeChunksApiRes;
+          _file = {
+            uid: '-1',
+            name: newFileList[0].name,
+            size: newFileList[0].originFileObj?.size,
+            status: 'done',
+            url: path,
+          };
+          console.log('合并分片完成: ', path, msg);
+          resolve(true);
+        }
+      };
+
+      const neededChunkListWithFile = chunks.filter(chunk => neededChunkList.includes(chunk.hash));
+      for (let i = 0; i < neededChunkListWithFile.length; i++) {
+        const chunkFile = neededChunkListWithFile[i].blob;
+        const chunkHash = neededChunkListWithFile[i].hash;
+        const chunkInfo = {
+          chunk: chunkFile,
+          fileHash,
+          chunkHash,
+        };
+        const formData = genFormData(chunkInfo);
+        uploadChunkApi(formData)
+          .then(uploadChunkHandler)
+          .catch(error => {
+            console.log('分片上传失败: ', error);
+            if (error.message === 'canceled') {
+              message.error('上传已取消');
+              _setFileList([]);
+              _file = null;
+              formChangeHandler();
+            }
+            reject(false);
+            return;
+          });
+      }
+    });
+  };
+
+  const fileRemoveHandler: UploadProps['onRemove'] = () => {
+    abort();
+    return true;
   };
 
   return (
@@ -158,6 +263,7 @@ const PropsComponent: FC<QuestionUploadLargeFilePropsType> = (
           beforeUpload={beforeUpload}
           fileList={_fileList}
           onChange={fileChangeHandler}
+          onRemove={fileRemoveHandler}
         >
           <Paragraph>
             <InboxOutlined style={{ fontSize: '32px', color: '#1677ff' }} />
