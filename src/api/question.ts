@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-25 10:15:00
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-10-21 16:55:11
+ * @LastEditTime: 2025-10-31 23:47:16
  * @FilePath: \survey-frontend\src\api\question.ts
  * @Description: 问卷服务相关接口
  *
@@ -102,5 +102,11 @@ export const duplicateQuestionApi = async (id: string): Promise<ResDataType> => 
 export const deleteQuestionApi = async (ids: string[]): Promise<ResDataType> => {
   const url = `/api/question`;
   const data = (await axios.delete(url, { data: { ids } })) as ResDataType;
+  return data;
+};
+
+export const getHomeDataApi = async (): Promise<ResDataType> => {
+  const url = `/api/question/homeData`;
+  const data = (await axios.get(url)) as ResDataType;
   return data;
 };

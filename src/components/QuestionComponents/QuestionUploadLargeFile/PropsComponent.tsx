@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 16:11:42
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-10-31 17:24:05
+ * @LastEditTime: 2025-10-31 23:28:36
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionUploadLargeFile\PropsComponent.tsx
  * @Description: 大文件上传 属性配置组件
  *
@@ -249,7 +249,7 @@ const PropsComponent: FC<QuestionUploadLargeFilePropsType> = (
       <Form.Item
         label={
           <div>
-            <Tooltip title="注意，此处上传的文件仅为了功能演示，问卷发布后并不会显示此文件">
+            <Tooltip title="大文件上传目前仅支持pc端演示，移动端暂不支持此功能">
               <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
             </Tooltip>
             &nbsp;

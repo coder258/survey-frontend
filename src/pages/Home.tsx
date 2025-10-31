@@ -1,9 +1,11 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Typography } from 'antd';
 import { MANAGE_INDEX_PATHNAME } from '../router';
 import styles from './Home.module.scss';
 import ComponentLib from './question/Edit/ComponentLib';
+import { useRequest } from 'ahooks';
+import { getHomeDataApi } from '../api/question';
 
 const { Title, Paragraph } = Typography;
 
@@ -16,6 +18,13 @@ const Home: FC = () => {
   const startBtnHandler = () => {
     nav(MANAGE_INDEX_PATHNAME);
   };
+
+  const [homeData, setHomeData] = useState<any>({});
+  useRequest(getHomeDataApi, {
+    onSuccess: data => {
+      setHomeData(data);
+    },
+  });
 
   const getRotate = (range: number[], value: number, max: number): number => {
     return (value / max) * (range[1] - range[0]) + range[0];
@@ -89,7 +98,10 @@ const Home: FC = () => {
     <div className={styles.container} ref={containerRef}>
       <div className={styles.info}>
         <Title>问卷调查 | 在线投票</Title>
-        <Paragraph>已累计创建问卷 100 份，发布问卷 90 份，收到答卷 980 份</Paragraph>
+        <Paragraph>
+          已累计创建问卷 {homeData.allQuestionCount} 份，发布问卷 {homeData.publishedQuestionCount}{' '}
+          份，收到答卷 {homeData.allAnswerCount} 份
+        </Paragraph>
         <div>
           <Button type="primary" onClick={startBtnHandler}>
             开始使用
