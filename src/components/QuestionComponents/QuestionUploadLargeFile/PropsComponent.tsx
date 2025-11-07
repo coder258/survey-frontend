@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-01 16:11:42
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-10-31 23:28:36
+ * @LastEditTime: 2025-11-03 16:24:28
  * @FilePath: \survey-frontend\src\components\QuestionComponents\QuestionUploadLargeFile\PropsComponent.tsx
  * @Description: 大文件上传 属性配置组件
  *
@@ -168,6 +168,7 @@ const PropsComponent: FC<QuestionUploadLargeFilePropsType> = (
             status: 'done',
             url: path,
           };
+          setProgress(100, 'done');
           console.log('合并分片完成: ', path, msg);
           resolve(true);
         }

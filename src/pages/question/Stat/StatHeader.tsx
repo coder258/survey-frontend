@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-09-11 10:43:24
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-11-02 17:15:29
+ * @LastEditTime: 2025-11-03 16:40:28
  * @FilePath: \survey-frontend\src\pages\question\Stat\StatHeader.tsx
  * @Description: 统计头部组件
  *
@@ -23,7 +23,7 @@ const StatHeader: FC = () => {
   const nav = useNavigate();
   const { id = '' } = useParams();
   const inputRef = useRef<InputRef>(null);
-  const inputValue = `http://192.168.133.14:3000/question/${id}`;
+  const inputValue = `http://localhost:3000/question/${id}`;
 
   const qrcodeContent = (
     <div>
