@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-12 17:21:55
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-28 16:04:00
+ * @LastEditTime: 2026-03-01 16:20:47
  * @FilePath: \survey-frontend\src\components\Logo.tsx
  * @Description: LOGO组件
  *
@@ -35,7 +35,7 @@ const Logo: FC = () => {
           <Title>
             <FormOutlined />
           </Title>
-          <Title>小慕问卷</Title>
+          <Title>问卷通</Title>
         </Space>
       </Link>
     </div>

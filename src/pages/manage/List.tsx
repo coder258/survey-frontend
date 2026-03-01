@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-04 16:45:54
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-10-23 13:20:29
+ * @LastEditTime: 2026-03-01 16:21:12
  * @FilePath: \survey-frontend\src\pages\manage\List.tsx
  * @Description: 我的问卷页面
  *
@@ -21,7 +21,7 @@ import { LIST_SEARCH_PARAM_KEY, LIST_PAGE_SIZE } from '../../constant';
 const { Title } = Typography;
 
 const List: FC = () => {
-  useTitle('小慕问卷 - 我的问卷');
+  useTitle('问卷通 - 我的问卷');
   const [searchParams] = useSearchParams();
   const [list, setList] = useState<any[]>([]);
   const [pageNum, setPageNum] = useState(1);

@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-05 16:32:16
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-08-28 16:54:14
+ * @LastEditTime: 2026-03-01 16:21:00
  * @FilePath: \survey-frontend\src\layouts\MainLayout.tsx
  * @Description: 首页模板
  *
@@ -42,7 +42,7 @@ const MainLayout: FC = () => {
           <Outlet />
         )}
       </Content>
-      <Footer className={styles.footer}>小慕问卷 &copy;2025 - present. Created by tangyu</Footer>
+      <Footer className={styles.footer}>问卷通 &copy;2025 - present. Created by tangyu</Footer>
     </Layout>
   );
 };

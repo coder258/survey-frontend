@@ -12,7 +12,7 @@ import DateFormatter from '../../utils/date-format';
 const { Title } = Typography;
 
 const Trash: FC = () => {
-  useTitle('小慕问卷 - 回收站');
+  useTitle('问卷通 - 回收站');
 
   const { data = {}, loading, refresh } = useLoadQuestionListData({ isDeleted: true });
   const { list = [], total = 0 } = data;

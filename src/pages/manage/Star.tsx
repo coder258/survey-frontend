@@ -2,7 +2,7 @@
  * @Author: 唐宇
  * @Date: 2025-08-04 16:46:59
  * @LastEditors: 唐宇
- * @LastEditTime: 2025-10-23 12:14:59
+ * @LastEditTime: 2026-03-01 16:21:21
  * @FilePath: \survey-frontend\src\pages\manage\Star.tsx
  * @Description: 星标问卷页面
  *
@@ -20,7 +20,7 @@ import ListPagination from '../../components/ListPagination';
 const { Title } = Typography;
 
 const Star: FC = () => {
-  useTitle('小慕问卷 - 星标问卷');
+  useTitle('问卷通 - 星标问卷');
   const { data = {}, loading, refresh } = useLoadQuestionListData({ isStar: true });
   const { list = [], total = 0 } = data;
 
